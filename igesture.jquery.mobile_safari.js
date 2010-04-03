@@ -246,7 +246,6 @@ jQuery.fn.gesture = function(fn, settings) {
 	// the custom event 'gesture_x' will be sent to objects in
 	// the selection (where x is the name of the gesture)
 	else if (typeof(fn) == 'object' && typeof(fn.length) == 'undefined') {
-		console.log('hash');
      (function (dispatch_table, gesture_events) {
 			for (i in gesture_events) {
 				if (dispatch_table[i]) {
@@ -296,6 +295,7 @@ jQuery.fn.gesture = function(fn, settings) {
 				stopgesture: "touchend mouseup",
 				intragesture: "touchmove mousemove"
 			});
+		return this;
 	}
 	// when an array is given, this is a list of gestures that are
 	// to be sent as events to their targets,
@@ -335,5 +335,6 @@ jQuery.fn.gesture = function(fn, settings) {
 				stopgesture: "touchend mouseup",
 				intragesture: "touchmove mousemove"
 			});
+		return this;
 	}
 };
