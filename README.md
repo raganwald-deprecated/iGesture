@@ -15,4 +15,4 @@ Nota Bene: Although this repository is public, this plugin has NOT been released
 
 Warning: iGesture [May Contain Underscores](http://ozmm.org/posts/javascript_style.html "JavaScript Style").
 
-[blank]: about/blank.png  "Blank"
+[blank]: /raganwald/iGesture/blob/master/about/blank.png  "Blank"
