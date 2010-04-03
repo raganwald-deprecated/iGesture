@@ -27,7 +27,6 @@
 jQuery.fn.gesture = function(fn, settings) {
 
 	if (typeof(fn) == 'function') {
-		console.log('function');
   	return this.each( function () 	{
 
 			var topleft = 1;
@@ -307,7 +306,6 @@ jQuery.fn.gesture = function(fn, settings) {
 	// and 'gesture_right' custom events when these gestures are drawn in
 	// them.
 	else if (typeof(fn) == 'object') {
-		console.log('array');
 		(function (argv, gesture_events) {
 			var gesture_names = [];
 			jQuery.each(argv, function (arg) {

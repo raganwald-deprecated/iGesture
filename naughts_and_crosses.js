@@ -19,9 +19,7 @@ $(document).ready(function () {
       { href: 'http://www.flickr.com/photos/26762616@N02/3551105932', 
         src: 'http://static.flickr.com/3331/3551105932_f001950429_t.jpg' },
       { href: 'http://www.flickr.com/photos/38782010@N00/3126080585', 
-        src: 'http://static.flickr.com/3112/3126080585_33ba9f9341_t.jpg' },
-      { href: 'http://www.flickr.com/photos/74838778@N00/4373107191', 
-        src: 'http://static.flickr.com/4047/4373107191_bc8bce3822_t.jpg' }
+        src: 'http://static.flickr.com/3112/3126080585_33ba9f9341_t.jpg' }
       ],
     naughts: [
       { href: 'http://www.flickr.com/photos/49968232@N00/4046514052', 
@@ -48,8 +46,8 @@ $(document).ready(function () {
         src: 'http://static.flickr.com/2739/4285269162_13d062b8c8_t.jpg' }
       ]
   };
-	// tell iGesture that we want to generate close and circle gestures
-  $('body').gesture(['close', 'circleclockwise', 'circlecounterclockwise']);
+	// tell iGesture that we want to generate close and rotate gestures
+  $('body').gesture(['close', 'rotateclockwise', 'rotatecounterclockwise']);
 	
 	// here's our function  that generates a naught or a cross
 	var draw = function(event, what) {
@@ -69,10 +67,10 @@ $(document).ready(function () {
 	
 	// here are our bindings, they look just like any other event in jQuery
 	$('.square')
-		.bind('gesture_circleclockwise', function(event) {
+		.bind('gesture_rotateclockwise', function(event) {
 			draw(event, 'naught')
 		})
-		.bind('gesture_circlecounterclockwise', function(event) {
+		.bind('gesture_rotatecounterclockwise', function(event) {
 			draw(event, 'naught')
 		})
 		.bind('gesture_close', function(event) {
