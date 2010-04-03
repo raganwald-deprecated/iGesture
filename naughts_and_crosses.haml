@@ -1,0 +1,54 @@
+!!!
+%html
+  %head
+    %script{:src=>"http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>"igesture.jquery.mobile_safari.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>"naughts_and_crosses.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %style
+      :sass
+        .board
+          :margin
+            :left  auto
+            :right auto
+          .row
+            &.middle
+              .square
+                :border
+                  :top
+                    :style solid
+                  :bottom
+                    :style solid
+            .square
+              :display inline-block
+              :height 200px
+              :width 200px
+              &.centre
+                :border
+                  :left
+                    :style solid
+                  :right
+                    :style solid
+              img
+                :vertical-align middle
+                :horizontal-align middle
+                :height 190px
+                :width 190px
+                :margin
+                  :top 5px
+                  :left 5px
+                  :bottom 5px
+                  :right 5px
+  %body
+    .board
+      .row.top>
+        .square.left
+        .square.centre>
+        .square.right>
+      .row.middle
+        .square.left>
+        .square.centre>
+        .square.right>
+      .row.bottom
+        .square.left>
+        .square.centre>
+        .square.right>
