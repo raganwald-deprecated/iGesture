@@ -75,6 +75,8 @@ This should give you enough to get started. Review the code and how it's used in
 
 Nota Bene: Although this repository is public, this plugin has NOT been released. I am in the process of "extracting" iGesture from another project, and it is under construction.
 
+Disclaimer: This jQuery plugin has nothing to do with the hardware device from the now-defunct [Fingerworks][fw], with [Dr. Maria Karam][mk]'s project, or with the [Java-based gesture recognition framework][java].
+
 Warning: iGesture [May Contain Underscores][mcu].
 
 [blank]: /raganwald/iGesture/raw/master/about/blank.png  "Blank"
@@ -82,3 +84,6 @@ Warning: iGesture [May Contain Underscores][mcu].
 
 [mcu]: http://ozmm.org/posts/javascript_style.html "JavaScript Style"
 [go]: http://github.com/raganwald/go "Go"
+[fw]: http://www.fingerworks.com/index.html
+[mk]: http://users.ecs.soton.ac.uk/amrk03r/
+[java]: http://sourceforge.net/projects/igesture/
