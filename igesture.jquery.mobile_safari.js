@@ -79,16 +79,20 @@ jQuery.fn.gesture = function(fn, settings) {
 		      if(this.moves.length == 2) {
 		        return this.getMoveNameAt(0) + "_" + this.getMoveNameAt(1);
 		      }
-
-	        if ( (Number(this.moves.charAt(0))== 4) &&
-	             (Number(this.moves.charAt(this.moves.length-1)) == 4) &&
-	             (this.moves.indexOf("8") != -1)
-	           ) return "scrub";
+		
+					if (this.moves.length < 7) {
+						
+		        if ( (Number(this.moves.charAt(0))== 4) &&
+		             (Number(this.moves.charAt(this.moves.length-1)) == 4) &&
+		             (this.moves.indexOf("8") != -1)
+		           ) return "scrub";
 	        
-	        if ( (Number(this.moves.charAt(0))== 8) &&
-	             (Number(this.moves.charAt(this.moves.length-1)) == 8) &&
-	             (this.moves.indexOf("4") != -1)
-	           ) return "scrub";
+		        if ( (Number(this.moves.charAt(0))== 8) &&
+		             (Number(this.moves.charAt(this.moves.length-1)) == 8) &&
+		             (this.moves.indexOf("4") != -1)
+		           ) return "scrub";
+	
+					}
 	
 					var g = this;
 					var half_close_gestures = [
