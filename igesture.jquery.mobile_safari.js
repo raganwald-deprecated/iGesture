@@ -80,29 +80,33 @@ jQuery.fn.gesture = function(fn, settings) {
 		        return this.getMoveNameAt(0) + "_" + this.getMoveNameAt(1);
 		      }
 
-		   //   if (this.moves.length < 7) {
-		        if ( (Number(this.moves.charAt(0))== 6) &&
-		             (Number(this.moves.charAt(this.moves.length-1)) == 4) &&
-		             (this.moves.indexOf("1") != -1)
-		           ) return "open";
-						var g = this;
-						var half_close_gestures = [
-							{ start: bottomright, connect: top, finish: bottomleft }, { start: topleft, connect: bottom, finish: topright },
-							{ start: bottomright, connect: left, finish: topright }, { start: topleft, connect: right, finish: bottomleft }
-						];
-				
-						for (i in half_close_gestures) {
-							var e = half_close_gestures[i];
-			        if ( (Number(g.moves.charAt(0))== e.start) &&
-			             (Number(g.moves.charAt(g.moves.length-1)) == e.finish) &&
-			             (g.moves.indexOf('' + e.connect) != -1)
-			           ) return 'close';
-			        if ( (Number(g.moves.charAt(0))== e.finish) &&
-			             (Number(g.moves.charAt(g.moves.length-1)) == e.start) &&
-			             (g.moves.indexOf('' + e.connect) != -1)
-			           ) return 'close';
-						};
-		   //   }
+	        if ( (Number(this.moves.charAt(0))== 4) &&
+	             (Number(this.moves.charAt(this.moves.length-1)) == 4) &&
+	             (this.moves.indexOf("8") != -1)
+	           ) return "scrub";
+	        
+	        if ( (Number(this.moves.charAt(0))== 8) &&
+	             (Number(this.moves.charAt(this.moves.length-1)) == 8) &&
+	             (this.moves.indexOf("4") != -1)
+	           ) return "scrub";
+	
+					var g = this;
+					var half_close_gestures = [
+						{ start: bottomright, connect: top, finish: bottomleft }, { start: topleft, connect: bottom, finish: topright },
+						{ start: bottomright, connect: left, finish: topright }, { start: topleft, connect: right, finish: bottomleft }
+					];
+			
+					for (i in half_close_gestures) {
+						var e = half_close_gestures[i];
+		        if ( (Number(g.moves.charAt(0))== e.start) &&
+		             (Number(g.moves.charAt(g.moves.length-1)) == e.finish) &&
+		             (g.moves.indexOf('' + e.connect) != -1)
+		           ) return 'close';
+		        if ( (Number(g.moves.charAt(0))== e.finish) &&
+		             (Number(g.moves.charAt(g.moves.length-1)) == e.start) &&
+		             (g.moves.indexOf('' + e.connect) != -1)
+		           ) return 'close';
+					};
 
 		      if (this.moves.length >= 7) {
 		        if( (function (str){
@@ -255,41 +259,22 @@ jQuery.fn.gesture = function(fn, settings) {
 			$(this).gesture(function (gesture_data) {
 					var name = gesture_data.getName();
 					if (name != null && dispatch_table[name]) {
+						var receiver_expr = dispatch_table[name];
 						var event = jQuery.Event("gesture_" + name);
 						event.gesture_data = gesture_data;
-						event.unhandled = true;
+						if (typeof(receiver_expr) == 'string') {
+							$(receiver_expr).trigger(event);
+						}
+						else if (typeof(receiver_expr) == 'function') {
+							var triggerees = receiver_expr($(event.gesture_data.target)); // andand!
+							if (triggerees) {
+								triggerees.trigger(event);
+							}
+						}
 						$(gesture_data.target).trigger(event);
 					}
 					return false;
 				}, gesture_events);
-			for (i in dispatch_table) {
-				(function (gesture_name, receiver_expr) {
-					if (!gesture_events[gesture_name]) {
-						if (typeof(receiver_expr) == 'string') {
-							$(this)
-								.bind('gesture_' + gesture_name, function (event) {
-									if (event.unhandled) {
-										event.unhandled = false;
-										$(receiver_expr).trigger(event);
-									}
-									return false;
-								})
-						}
-						else if (typeof(receiver_expr) == 'function') {
-							$(this).bind('gesture_' + gesture_name, function (event) {
-									if (event.unhandled) {
-										event.unhandled = false;
-										var triggerees = receiver_expr($(event.target)); // andand!
-										if (triggerees) {
-											triggerees.trigger(event);
-										}
-									}
-									return false;
-								})
-						}
-					}
-				})(i, dispatch_table[i]);
-			};
 		})(fn, {
 				startgesture: "touchstart mousedown",
 				stopgesture: "touchend mouseup",
@@ -308,7 +293,7 @@ jQuery.fn.gesture = function(fn, settings) {
 	else if (typeof(fn) == 'object') {
 		(function (argv, gesture_events) {
 			var gesture_names = [];
-			jQuery.each(argv, function (arg) {
+			jQuery.each(argv, function (i, arg) {
 				if (typeof(arg) == 'string') {
 					gesture_names.push(arg);
 				}
@@ -322,7 +307,7 @@ jQuery.fn.gesture = function(fn, settings) {
 			});
 			$(this).gesture(function (gesture_data) {
 					var name = gesture_data.getName();
-					if (name != null && jQuery.inArray( name, gesture_names )) {
+					if (name != null && jQuery.inArray(name, gesture_names) != -1) {
 						var event = jQuery.Event("gesture_" + name);
 						event.gesture_data = gesture_data;
 						event.unhandled = true;

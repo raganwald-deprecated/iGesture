@@ -46,24 +46,32 @@ $(document).ready(function () {
         src: 'http://static.flickr.com/2739/4285269162_13d062b8c8_t.jpg' }
       ]
   };
-	// tell iGesture that we want to generate close and rotate gestures
-  $('body').gesture(['close', 'rotateclockwise', 'rotatecounterclockwise']);
 	
-	// here's our function  that generates a naught or a cross
+	// here's our function that generates a naught or a cross
 	var draw = function(event, what) {
-		$(event.target).filter(':empty').each(function(index, element) {
-			var arr = (what == 'naught') ? images.naughts : images.crosses;
-			var links = arr[Math.floor(Math.random() * arr.length)];
-			$('<a></a>')
-				.attr('href', links.href)
-				.prepend(
-					$('<img/>')
-						.attr('src', links.src)
-						.attr('alt', what)
-				)
-				.prependTo($(element));
-		});
+		$(event.target)
+			.filter(':empty')
+				.each(function (index, element) {
+						var arr = (what == 'naught') ? images.naughts : images.crosses;
+						var links = arr[Math.floor(Math.random() * arr.length)];
+						$('<a></a>')
+							.attr('href', links.href)
+							.prepend(
+								$('<img/>')
+									.attr('src', links.src)
+									.attr('alt', what)
+							)
+							.prependTo($(element));
+					});
 	};
+	
+  $('body')
+		// generate close and rotate gestures
+		.gesture(['close', 'rotateclockwise', 'rotatecounterclockwise'])	
+		// dispatch "scrub" gestures to squares that are not empty
+		.gesture({
+			scrub: '.square:not(:empty)'
+		});
 	
 	// here are our bindings, they look just like any other event in jQuery
 	$('.square')
@@ -76,4 +84,8 @@ $(document).ready(function () {
 		.bind('gesture_close', function(event) {
 			draw(event, 'cross')
 		})
+		.bind('gesture_scrub', function(event) {
+			$(this).empty();
+		});
+	
 });
