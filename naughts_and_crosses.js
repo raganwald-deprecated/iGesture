@@ -66,8 +66,8 @@ $(document).ready(function () {
 	};
 	
   $('body')
-		// generate close and rotate gestures
-		.gesture(['close', 'rotateclockwise', 'rotatecounterclockwise'])	
+		// generate close and circle gestures
+		.gesture(['close', 'circleclockwise', 'circlecounterclockwise'])	
 		// dispatch "scrub" gestures to squares that are not empty
 		.gesture({
 			scrub: '.square:not(:empty)'
@@ -75,10 +75,10 @@ $(document).ready(function () {
 	
 	// here are our bindings, they look just like any other event in jQuery
 	$('.square')
-		.bind('gesture_rotateclockwise', function(event) {
+		.bind('gesture_circleclockwise', function(event) {
 			draw(event, 'naught')
 		})
-		.bind('gesture_rotatecounterclockwise', function(event) {
+		.bind('gesture_circlecounterclockwise', function(event) {
 			draw(event, 'naught')
 		})
 		.bind('gesture_close', function(event) {

@@ -123,7 +123,7 @@ jQuery.fn.gesture = function(fn, settings) {
 		            return false;
 		          }
 		          return true;
-		        })(this.moves) ) return "rotateclockwise";
+		        })(this.moves) ) return "circleclockwise";
 
 		        if( (function (str){
 		          for (var i = 1 ; i < 8; i++){
@@ -135,7 +135,7 @@ jQuery.fn.gesture = function(fn, settings) {
 		            return false;
 		          }
 		          return true;
-		        })(this.moves) ) return "rotatecounterclockwise";
+		        })(this.moves) ) return "circlecounterclockwise";
 		      }
 
 		      return "unknown";

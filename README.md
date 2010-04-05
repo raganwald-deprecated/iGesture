@@ -26,18 +26,18 @@ If you'd like to become the next great iPad millionaire, you can finish this app
 The naughts and crosses demonstration shows how to use one of iGesture's features, handling gestures using jQuery's custom events. Have a look at [naughts\_and\_crosses.js](naughts\_and\_crosses.js):
 
     $('body')
-  		// generate close and rotate gestures
-      .gesture(['close', 'rotateclockwise', 'rotatecounterclockwise'])
+  		// generate close and circle gestures
+      .gesture(['close', 'circleclockwise', 'circlecounterclockwise'])
     
-This tells the body of the page that we want three gestures to be treated as custom events: `close`, `rotateclockwise`, and `rotatecounterclockwise`. You nearly always want to execute this on the body. iGesture allows you to handle nearly any arbitrary sequence of strokes as a gesture, but the most common ones have names and you can easily handle them as custom events. The "X" gesture is known as "close" because it is commonly used to dismiss a dialog or close a window. The two "rotate" gestures are often used for rotating things. We're handling both so that it doesn't matter which way you draw a circle. It's often important to be liberal in the way you handle similar strokes: Different people draw common shapes in different ways.
+This tells the body of the page that we want three gestures to be treated as custom events: `close`, `circleclockwise`, and `circlecounterclockwise`. You nearly always want to execute this on the body. iGesture allows you to handle nearly any arbitrary sequence of strokes as a gesture, but the most common ones have names and you can easily handle them as custom events. The "X" gesture is known as "close" because it is commonly used to dismiss a dialog or close a window. The two "circle" gestures are often used for rotating things. We're handling both so that it doesn't matter which way you draw a circle. It's often important to be liberal in the way you handle similar strokes: Different people draw common shapes in different ways.
 
 Speaking of handling custom gesture events, here's the jQuery-powered code that does that:
 
     $('.square')
-    	.bind('gesture_rotateclockwise', function(event) {
+    	.bind('gesture_circleclockwise', function(event) {
     		draw(event, 'naught')
     	})
-    	.bind('gesture_rotatecounterclockwise', function(event) {
+    	.bind('gesture_circlecounterclockwise', function(event) {
     		draw(event, 'naught')
     	})
     	.bind('gesture_close', function(event) {
