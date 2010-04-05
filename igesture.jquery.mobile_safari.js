@@ -143,18 +143,23 @@ jQuery.fn.gesture = function(fn, settings) {
 		  };
 
 		  settings = jQuery.extend({
-		     startgesture: "mousedown",
-		     stopgesture: "mouseup",
-					intragesture: "mousemove",
+		     startStroke: "mousedown",
+		     stopStroke: "mouseup",
+				 continueStroke: "mousemove",
+		     startGesture: "gesturestart",
+		     stopGesture: "gestureend",
+				 continueGesture: "gesturechange",
 		     button: "012",
-		     mindistance: 10,
+		     minDistance: 10,
+				 minScale: 0.25,
+				 minRotation: 22.5,
 		     continuesmode: false,
 		     repeat: false,
 		     disablecontextmenu: true
 		  }, settings);
 
 
-		  $(this).bind(settings.startgesture, function (e) {
+		  $(this).bind(settings.startStroke, function (e) {
 		    if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
 
 				gesture.target = e.target;
@@ -172,7 +177,7 @@ jQuery.fn.gesture = function(fn, settings) {
 		    gesture.y = -1;
 		    gesture.continuesmode = settings.continuesmode;
    
-		    $(this).bind(settings.intragesture, function(e){
+		    $(this).bind(settings.continueStroke, function(e){
 					var x = typeof(e.screenX) == 'number' ? e.screenX : event.targetTouches[0].pageX;
 					var y = typeof(e.screenY) == 'number' ? e.screenY : event.targetTouches[0].pageY;
 		
@@ -182,7 +187,7 @@ jQuery.fn.gesture = function(fn, settings) {
 		        return;
 		      }
 		      var distance = Math.sqrt(Math.pow(x - gesture.x,2)+Math.pow(y - gesture.y,2));
-		      if( distance > settings.mindistance){
+		      if( distance > settings.minDistance){
 		        var angle = Math.atan2(x - gesture.x, y - gesture.y) / Math.PI + 1;
 		        var dir = 0;
 		        if (3/8  < angle && angle < 5/8 ) dir = 8;
@@ -216,19 +221,65 @@ jQuery.fn.gesture = function(fn, settings) {
 		    });
 		  });
 
-		  $(this).bind(settings.stopgesture, function (e) {
+		  $(this).bind(settings.stopStroke, function (e) {
 		    if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
 
 		    if (!settings.disablecontextmenu) {
 		      $(this).unbind("contextmenu");
 		    }
-		    $(this).unbind(settings.intragesture);
+		    $(this).unbind(settings.continueStroke);
 		    if (gesture.moves.length != 0) {
 		      var t = $(this);
 		      t.hfn = fn;
 		      t.hfn(gesture);
 		    }
 		  });
+		
+			$(this).bind(settings.startGesture, function (e) {
+
+				gesture.target = e.target;
+   
+		    // disable browser context menu.
+		    if (settings.disablecontextmenu) {
+		      $(this).bind("contextmenu", function(e) {
+		        return false;
+		      });
+		    }
+ 
+		    gesture.moves = "";
+		    gesture.x = -1;
+		    gesture.y = -1;
+		    gesture.continuesmode = settings.continuesmode;
+		
+				gesture.scale = 1.0;
+				gesture.rotation = 0;
+				
+				$(this).bind(settings.continueGesture, function (e) {
+					var scale_diff = e.scale - 1.0;
+					gesture.scale += scale_diff;
+					if (Math.abs(gesture.scale - 1.0) >= settings.minScale) {
+						gesture.name = 'scale';
+		        if (settings.continuesmode){
+		          var t = $(this);
+			  			t.hfn = fn;
+		          t.hfn(gesture);
+							gesture.scale = 1.0
+		        }
+					}
+				});
+				
+			});
+		
+			$(this).bind(settings.stopGesture, function(e) {
+				if (Math.abs(gesture.scale - 1.0) >= settings.minScale) {
+					alert('here');
+					gesture.name = 'scale';
+          var t = $(this);
+	  			t.hfn = fn;
+          t.hfn(gesture);
+				}
+				$(this).unbind(settings.continueGesture);
+			});
 
 	  	return this;
 
@@ -280,9 +331,9 @@ jQuery.fn.gesture = function(fn, settings) {
 					return false;
 				}, gesture_events);
 		})(fn, {
-				startgesture: "touchstart mousedown",
-				stopgesture: "touchend mouseup",
-				intragesture: "touchmove mousemove"
+				startStroke: "touchstart mousedown",
+				stopStroke: "touchend mouseup",
+				continueStroke: "touchmove mousemove"
 			});
 		return this;
 	}
@@ -320,9 +371,9 @@ jQuery.fn.gesture = function(fn, settings) {
 					return false;
 				}, gesture_events);
 		})(fn, {
-				startgesture: "touchstart mousedown",
-				stopgesture: "touchend mouseup",
-				intragesture: "touchmove mousemove"
+				startStroke: "touchstart mousedown",
+				stopStroke: "touchend mouseup",
+				continueStroke: "touchmove mousemove"
 			});
 		return this;
 	}

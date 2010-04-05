@@ -1,11 +1,19 @@
 iGesture
 ===
 
-A fork of the [jGesture](http://web.siruna.com/nico/jgesture/documentation.html "jGesture Plugin for JQuery") plugin for Mobile Safari. With iGesture, your Mobile Safari applications can respond to *gestures*, shapes the user draws with their finger. You can respond to swiping up, down, left or right or at a 45 degree angle, you can support circles drawn clockwise or counterclockwise, and you can respond to more complex gestures such as a square or "X." Gestures can be drawn on the entire screen or you can support gestures drawn on specific elements of the page.
+A fork of the [jGesture](http://web.siruna.com/nico/jgesture/documentation.html "jGesture Plugin for JQuery") plugin for modern browsers and especially Mobile Safari. With iGesture, your web applications can respond to *gestures*, shapes the user draws with their finger. You can respond to swiping up, down, left or right or at a 45 degree angle, you can support circles drawn clockwise or counterclockwise, and you can respond to more complex gestures such as a square or "X." Gestures can be drawn on the entire screen or you can support gestures drawn on specific elements of the page.
+
+**doesn't mobile safari already give me gesture support?**
+
+Mobile Safari has high-level support or handling scaling and rotation with two fingers. You can also get incredibly detailed and track each finger separately if you need to. However, if you want to use gestures like swiping up or down or drawing a circle with one finger, you have to track the touch movements yourself.
+
+With iGesture, you have predefined gestures like "left," "top," and "scrub" (A back-and-forth wiping) that are automatically turned into jQuery custom events so you can bind functions to the individual gestures on specific elements rather than having a massive switch statement inside your `touchmove` handler. Your code is more 'jQuery-ish'.
+
+Have a look at "naughts and crosses," a line of code really is worth a thousand words.
 
 **naughts and crosses**
 
-The [naughts and crosses](naughts_and_crosses.html) demonstration page is a ridiculously simple game of naughts and crosses intended for "pass and play." To try it, download [naughts\_and\_crosses.html](naughts\_and\_crosses.html), [naughts\_and\_crosses.js](naughts\_and\_crosses.js), and of course [igesture.jquery.mobile\_safari.js](igesture.jquery.mobile\_safari.js). Put them in the same directory and use Safari to open naughts\_and\_crosses.html.
+The [naughts and crosses](naughts_and_crosses.html) demonstration page is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser (it has not been set up for Mobile Safari yet). To try it, download [naughts\_and\_crosses.html](naughts\_and\_crosses.html), [naughts\_and\_crosses.js](naughts\_and\_crosses.js), and of course [igesture.jquery.mobile\_safari.js](igesture.jquery.mobile\_safari.js). Put them in the same directory and use Safari to open naughts\_and\_crosses.html.
 
 You should see a blank board:
 
