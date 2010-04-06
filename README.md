@@ -15,7 +15,7 @@ Have a look at "naughts and crosses," the demo explained next. Sometimes one lin
 
 The [naughts and crosses](naughts_and_crosses.html) demonstration page is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser or on an iPhone. To try it, download [naughts\_and\_crosses.html](/raganwald/iGesture/raw/master/naughts_and_crosses.html), [naughts\_and\_crosses.js](n/raganwald/iGesture/raw/master/naughts_and_crosses.js), and of course [igesture.jquery.mobile\_safari.js](/raganwald/iGesture/raw/master/igesture.jquery.mobile_safari.js). Put them in the same directory and use Safari to open naughts\_and\_crosses.html.
 
-If you want to try it on Mobile Safari, drop them in the Sites directory on your Macintosh and access them with your iPhone or iPhone Simulator's Safari browser.
+If you want to try it on Mobile Safari, drop them in the `Sites` directory on your Macintosh and access them with your iPhone or iPhone Simulator's Safari browser.
 
 You should see a blank board:
 
@@ -31,7 +31,7 @@ You can draw an "O" by drawing a circle. You may need to practice a bit to get i
 
 ![In Play][oxox]
 
-Now try a "scrub" gesture: Place your finger on the left side of the screen, stroke to the right, back to the left, and back to the right. (You can also reverse the scrub's directions). All the Xs and Os you've drawn will disappear. 
+Now try a "scrub" gesture: Place your finger anywhere on the left side of the screen, stroke to the right, back to the left, and back to the right. (You can also reverse the scrub's directions). All the Xs and Os you've drawn will disappear. 
 
 If you'd like to become the next great iPad millionaire, you can finish this application up. Add logic for recognizing when a game is won, undoing a move, playing over the internet, and using location services to find nearby players. Good luck!
 
@@ -88,15 +88,17 @@ In naughts and crosses, we are triggering `gesture_scrub` on all squares that ar
 			$(this).empty();
 		});
 		
-This should give you enough to get started. Review the code and how it's used in naughts and crosses. Good luck!
+This should give you enough to get started. Review the code and how it's used in naughts and crosses. Then try incorporating it into your project. Good luck!
+
+Sincerely,
+
+[Reg Braithwaite][reg]
 
 ---
 
-Nota Bene: Although this repository is public, this plugin has NOT been released. I am in the process of "extracting" iGesture from another project, and it is under construction.
-
-Disclaimer: This jQuery plugin has nothing to do with the hardware device from the now-defunct [Fingerworks][fw], with [Dr. Maria Karam][mk]'s project, or with the [Java-based gesture recognition framework][java].
-
-Warning: iGesture [May Contain Underscores][mcu].
+*iGuesture would not have been possible without the motivation and support of the [Unspace](http://unspace.ca/ "Unspace") working environment. Thanks! Also, iGesture has nothing to do with the now-defunct [Fingerworks][fw], with [Dr. Maria Karam][mk]'s project, or with anything written in [Java][java].*
+  
+Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raganwald) or [RSS](http://feeds.feedburner.com/raganwald "raganwald's rss feed"): <a href="http://feeds.feedburner.com/raganwald">.
 
 [blank]: /raganwald/iGesture/raw/master/about/blank.png  "Blank"
 [gestures]: /raganwald/iGesture/raw/master/about/gestures.png  "Example Gestures"
@@ -107,3 +109,4 @@ Warning: iGesture [May Contain Underscores][mcu].
 [fw]: http://www.fingerworks.com/index.html
 [mk]: http://users.ecs.soton.ac.uk/amrk03r/
 [java]: http://sourceforge.net/projects/igesture/
+[reg]: http://reginald.braythwayt.com
