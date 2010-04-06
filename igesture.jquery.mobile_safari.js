@@ -230,11 +230,32 @@ jQuery.fn.gesture = function(events) {
 
        $(this).bind(settings.continueStroke,
        function(e) {
-           // e.preventDefault();
-           //    e.stopPropagation();
-           var x = typeof(e.screenX) == 'number' ? e.screenX: e.targetTouches[0].pageX;
-           var y = typeof(e.screenY) == 'number' ? e.screenY: e.targetTouches[0].pageY;
-
+         	var x;
+				 	var y;
+				 	if (typeof(e.screenX) != 'undefined') {
+						x = e.screenX;
+						y = e.screenY;
+					}
+					else if (typeof(e.targetTouches) != 'undefined') {
+						x = e.targetTouches[0].pageX;
+						y = e.targetTouches[0].pageY;
+					}
+					else if (typeof(e.originalEvent) == 'undefined') {
+						var str = '';
+						for (i in e) {
+							str += ', ' + i + ': ' + e[i];
+						}
+						console.log("don't understand x and y for " + e.type + ' event: ' + str);
+					}
+					else if (typeof(e.originalEvent.screenX) != 'undefined') {
+						x = e.originalEvent.screenX;
+						y = e.originalEvent.screenY;
+					}
+					else if (typeof(e.originalEvent.targetTouches) != 'undefined') {
+						x = e.originalEvent.targetTouches[0].pageX;
+						y = e.originalEvent.targetTouches[0].pageY;
+					}
+					
            if ((gesture.x == -1) && (gesture.y == -1)) {
                gesture.x = x;
                gesture.y = y;

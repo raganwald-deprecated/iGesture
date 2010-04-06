@@ -9,21 +9,27 @@ Mobile Safari has high-level support or handling scaling and rotation with two f
 
 With iGesture, you have predefined gestures like "left," "top," and "scrub" (A back-and-forth wiping) that are automatically turned into jQuery custom events so you can bind functions to the individual gestures on specific elements rather than having a massive switch statement inside your `touchmove` handler. Your code is more 'jQuery-ish'.
 
-Have a look at "naughts and crosses:" Sometimes one line of code really is worth a thousand words.
+Have a look at "naughts and crosses," the demo explained next. Sometimes one line of code really is worth a thousand words.
 
 **naughts and crosses**
 
-The [naughts and crosses](naughts_and_crosses.html) demonstration page is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser (I'm embarrassed to say that I haven't finished figuring out the specific CSS incantations on Mobile Safari yet). To try it, download [naughts\_and\_crosses.html](/raganwald/iGesture/raw/master/naughts_and_crosses.html), [naughts\_and\_crosses.js](n/raganwald/iGesture/raw/master/naughts_and_crosses.js), and of course [igesture.jquery.mobile\_safari.js](/raganwald/iGesture/raw/master/igesture.jquery.mobile_safari.js). Put them in the same directory and use Safari to open naughts\_and\_crosses.html.
+The [naughts and crosses](naughts_and_crosses.html) demonstration page is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser or on an iPhone. To try it, download [naughts\_and\_crosses.html](/raganwald/iGesture/raw/master/naughts_and_crosses.html), [naughts\_and\_crosses.js](n/raganwald/iGesture/raw/master/naughts_and_crosses.js), and of course [igesture.jquery.mobile\_safari.js](/raganwald/iGesture/raw/master/igesture.jquery.mobile_safari.js). Put them in the same directory and use Safari to open naughts\_and\_crosses.html.
+
+If you want to try it on Mobile Safari, drop them in the Sites directory on your Macintosh and access them with your iPhone or iPhone Simulator's Safari browser.
 
 You should see a blank board:
 
 ![Blank][blank]
 
-Drawn an "X" or an "O" on any square. You can use your finger on an iPad or iPhone, a pen on a pen-enabled device, or mouse down and draw on a more conventional computer. Note: *Do not draw on this documentation, draw on your copy of naughts\_and\_crosses.html!*. All gestures must be drawn in one continuous set of strokes, so when drawing an X, do not lift your finger. So to draw an X you will need to use three strokes: One slash of the X, a connector stroke, and the other slash of the X. One way to draw an X is to stroke from top-left to bottom-right, from bottom-right to bottom-left, and from bottom-left to top-right. Strokes are named after their direction, so for development purposes we call these three strokes "bottom-right," "left," and "top-right."
+Drawn an "X" or an "O" starting inside any square. You can use your finger on an iPad or iPhone, a pen on a pen-enabled device, or mouse down and draw on a more conventional computer. *Do not draw on this documentation, draw on your copy of naughts\_and\_crosses.html!*. You don't need to draw entirely inside the square, the important thingis that you start drawing your gesture inside the square. All gestures must be drawn in one continuous set of strokes, so when drawing an X, do not lift your finger.
+
+![Gestures][gestures]
+
+So to draw an X you will need to use three strokes: One slash of the X, a connector stroke, and the other slash of the X. One way to draw an X is to stroke from top-left to bottom-right, from bottom-right to bottom-left, and from bottom-left to top-right. Strokes are named after their direction, so for development purposes we call these three strokes "bottom-right," "left," and "top-right."
 
 You can draw an "O" by drawing a circle. You may need to practice a bit to get it right. Play around for a bit, you may end up with something like this:
 
-![In Play][in_play]
+![In Play][oxox]
 
 Now try a "scrub" gesture: Place your finger on the left side of the screen, stroke to the right, back to the left, and back to the right. (You can also reverse the scrub's directions). All the Xs and Os you've drawn will disappear. 
 
@@ -93,7 +99,8 @@ Disclaimer: This jQuery plugin has nothing to do with the hardware device from t
 Warning: iGesture [May Contain Underscores][mcu].
 
 [blank]: /raganwald/iGesture/raw/master/about/blank.png  "Blank"
-[in_play]: /raganwald/iGesture/raw/master/about/in_play.png  "In Play"
+[gestures]: /raganwald/iGesture/raw/master/about/gestures.png  "Example Gestures"
+[oxox]: /raganwald/iGesture/raw/master/about/oxox.png  "In Play"
 
 [mcu]: http://ozmm.org/posts/javascript_style.html "JavaScript Style"
 [go]: http://github.com/raganwald/go "Go"
