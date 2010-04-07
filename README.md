@@ -124,7 +124,7 @@ Sincerely,
 
 *iGesture is based on Nico Goeminne's [jGesture][jg] callback-oriented plugin. Thanks, Nico! iGesture would not have been possible without the motivation and support of the [Unspace](http://unspace.ca/ "Unspace") working environment. Thanks! Also, iGesture has nothing to do with the now-defunct [Fingerworks][fw], with [Dr. Maria Karam][mk]'s project, or with anything written in [Java][java].*
   
-Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raganwald) or [RSS](http://feeds.feedburner.com/raganwald "raganwald's rss feed"): <a href="http://feeds.feedburner.com/raganwald">.
+Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raganwald) or [RSS](http://feeds.feedburner.com/raganwald "raganwald's rss feed").
 
 [blank]: /raganwald/iGesture/raw/master/about/blank.png  "Blank"
 [gestures]: /raganwald/iGesture/raw/master/about/gestures.png  "Example Gestures"
