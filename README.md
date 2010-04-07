@@ -35,7 +35,7 @@ But wait, there's more! If you're using a multi-touch device (or a simulator), y
 
 Everything you've seen is handled in Javascript with iGesture and jQuery. If you're interested in gestures, you may already know that you can get lists of touches from the browser or register functions to be called in response to certain callbacks. How much code do think it would take to handle the events for Xs, Os, scrubs, and rotations? Twenty, thirty function calls? Maybe fewer than 100 lines of code?
 
-How about just *six* function calls&interro;
+How about just *six* function calls&#8253;
 
 There's one to `.gesture` and five to bind the `X`, `O`, `scrub`, and `rotate` events. (If you counted four, it's because there's one circle event for each direction you can stroke, but all eight ways you can draw an X are the same event.) Here's <u>all</u> the iGesture-specific code in naughts and crosses:
 
