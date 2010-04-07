@@ -1,5 +1,6 @@
 iGesture
 ===
+*New: The [Official Announcement][announce] has some background on how I came to write iGesture.*
 
 iGesture provides an event-driven model for supporting *gestures* (like swiping the screen) in your web application. iGesture is especially useful if you are building an application for mobile devices such as the iPhone or iPad and wish to support the same gestures as a native application on both mobile devices and in standard browsers. Because iGesture is event-based, you can support gestures exactly the same way you support other interactions such as mouse clicks: By binding event handlers to DOM elements.
 
@@ -139,3 +140,4 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [nc]: http://raganwald.github.com/iGesture/naughts_and_crosses.html
 [jq]: http://jquery.com
 [jg]: http://web.siruna.com/nico/jgesture/documentation.html
+[announce]: http://github.com/raganwald/homoiconic/blob/master/2010/04/igesture.md#readme "Announcing iGesture"
