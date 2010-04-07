@@ -7,6 +7,12 @@
     %script{:src=>"naughts_and_crosses.js", :type=>"text/javascript", :charset=>"utf-8"}
     %style
       :sass
+        p
+          :font
+            :style italic
+            :size small
+          :text
+            :align left
         .board
           :margin
             :left auto
@@ -50,3 +56,6 @@
         .square.left>
         .square.centre>
         .square.right>
+    %p 
+      Naughts and crosses is powered by
+      %a{:href=>'http://github.com/raganwald/iGesture'} iGesture
