@@ -15,12 +15,6 @@ Have a look at "naughts and crosses," the demo explained next. Sometimes one lin
 
 **naughts and crosses**
 
-The [naughts and crosses](naughts_and_crosses.html) demonstration page is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser or on an iPhone. To try it, download [naughts\_and\_crosses.html](/raganwald/iGesture/raw/master/naughts_and_crosses.html), [naughts\_and\_crosses.js](n/raganwald/iGesture/raw/master/naughts_and_crosses.js), and of course [igesture.jquery.mobile\_safari.js](/raganwald/iGesture/raw/master/igesture.jquery.mobile_safari.js). Put them in the same directory and use Safari to open naughts\_and\_crosses.html.
-
-If you want to try it on Mobile Safari, drop them in the `Sites` directory on your Macintosh and access them with your iPhone or iPhone Simulator's Safari browser.
-
-**naughts and crosses**
-
 The [naughts and crosses][nc] demonstration page is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser or on an iPhone. Load it up in a modern browser, on an iPhone, or on an iPad. You should see a blank board:
 
 ![Blank][blank]
