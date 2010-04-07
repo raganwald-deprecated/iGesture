@@ -11,11 +11,9 @@ Mobile Safari has high-level support or handling scaling and rotation with two f
 
 With iGesture, you have predefined gestures like "left," "top," and "scrub" (A back-and-forth wiping) that are automatically turned into jQuery custom events so you can bind functions to the individual gestures on specific elements rather than having a massive switch statement inside your `touchmove` handler. Your code is more 'jQuery-ish'.
 
-Have a look at "naughts and crosses," the demo explained next. Sometimes one line of code really is worth a thousand words.
-
 **naughts and crosses**
 
-The [naughts and crosses][nc] demonstration page is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser or on an iPhone. Load it up in a modern browser, on an iPhone, or on an iPad. You should see a blank board:
+[Naughts and crosses][nc] is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser or on an iPhone. Load it up in a modern browser, on an iPhone, or on an iPad. You should see a blank board:
 
 ![Blank][blank]
 
@@ -35,11 +33,11 @@ But wait, there's more! If you're using a multi-touch device (or a simulator), y
 
 **coding with iGesture**
 
-Everything you've seen is handled in Javascript with iGesture and jQuery. If you're interested in gestures, you may already know that you can get lists of touches from the browser or register functions to be called in response to certain callbacks. How much code do think it would take to handle the events for Xs, Os, scrubs, and rotations? 
+Everything you've seen is handled in Javascript with iGesture and jQuery. If you're interested in gestures, you may already know that you can get lists of touches from the browser or register functions to be called in response to certain callbacks. How much code do think it would take to handle the events for Xs, Os, scrubs, and rotations? Twenty, thirty function calls? Maybe fewer than 100 lines of code?
 
-Twenty, thirty function calls? Maybe fewer than 100 lines of code? How about just *six* function calls: One to `.gesture` and five to bind the `X`, `O`, `scrub`, and `rotate` events? (If you counted four, it's because there's one circle event for each direction you can stroke, but all eight ways you can draw an X are the same event.)
+How about just *six* function calls&interro;
 
-Here's all the iGesture-specific code in naughts and crosses:
+There's one to `.gesture` and five to bind the `X`, `O`, `scrub`, and `rotate` events. (If you counted four, it's because there's one circle event for each direction you can stroke, but all eight ways you can draw an X are the same event.) Here's <u>all</u> the iGesture-specific code in naughts and crosses:
 
     $('body')
 	    .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate', {
