@@ -9,84 +9,108 @@ Mobile Safari has high-level support or handling scaling and rotation with two f
 
 With iGesture, you have predefined gestures like "left," "top," and "scrub" (A back-and-forth wiping) that are automatically turned into jQuery custom events so you can bind functions to the individual gestures on specific elements rather than having a massive switch statement inside your `touchmove` handler. Your code is more 'jQuery-ish'.
 
-Have a look at "naughts and crosses," the demo explained next. Sometimes one line of code really is worth a thousand words.
-
 **naughts and crosses**
 
-The [naughts and crosses](naughts_and_crosses.html) demonstration page is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser or on an iPhone. To try it, download [naughts\_and\_crosses.html](/raganwald/iGesture/raw/master/naughts_and_crosses.html), [naughts\_and\_crosses.js](n/raganwald/iGesture/raw/master/naughts_and_crosses.js), and of course [igesture.jquery.mobile\_safari.js](/raganwald/iGesture/raw/master/igesture.jquery.mobile_safari.js). Put them in the same directory and use Safari to open naughts\_and\_crosses.html.
-
-If you want to try it on Mobile Safari, drop them in the `Sites` directory on your Macintosh and access them with your iPhone or iPhone Simulator's Safari browser.
-
-You should see a blank board:
+The [naughts and crosses][nc] demonstration page is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser or on an iPhone. Load it up in a modern browser, on an iPhone, or on an iPad. You should see a blank board:
 
 ![Blank][blank]
 
-Drawn an "X" or an "O" starting inside any square. You can use your finger on an iPad or iPhone, a pen on a pen-enabled device, or mouse down and draw on a more conventional computer. *Do not draw on this documentation, draw on your copy of naughts\_and\_crosses.html!*. You don't need to draw entirely inside the square, the important thingis that you start drawing your gesture inside the square. All gestures must be drawn in one continuous set of strokes, so when drawing an X, do not lift your finger.
+Drawn an "X" or an "O" starting inside any square. You can use your finger on an iPad or iPhone, a pen on a pen-enabled device, or mouse down and draw on a more conventional computer. *Do not draw on this document, silly! Draw on naughts\_and\_crosses.html!*. You don't need to draw entirely inside the square, the important thing is that you start drawing your gesture inside the square. All gestures must be drawn in one continuous set of strokes, so when drawing an X, do not lift your finger.
 
 ![Gestures][gestures]
 
 So to draw an X you will need to use three strokes: One slash of the X, a connector stroke, and the other slash of the X. One way to draw an X is to stroke from top-left to bottom-right, from bottom-right to bottom-left, and from bottom-left to top-right. Strokes are named after their direction, so for development purposes we call these three strokes "bottom-right," "left," and "top-right."
 
-You can draw an "O" by drawing a circle. You may need to practice a bit to get it right. Play around for a bit, you may end up with something like this:
+The slashes of the "X" need to be close to 45 degrees to work properly. If you aren't getting an X, that's probably the issue. You can draw an "O" by drawing a circle. You can start the circle at any point, as long as you draw a full circle, you should get an O. You'll get the hang of drawing gestures very quickly. Play around for a bit, you may end up with something like this:
 
 ![In Play][oxox]
 
-Now try a "scrub" gesture: Place your finger anywhere on the left side of the screen, stroke to the right, back to the left, and back to the right. (You can also reverse the scrub's directions). All the Xs and Os you've drawn will disappear. 
+Now try a "scrub" gesture: Place your finger anywhere on the left side of the screen, stroke to the right, back to the left, and back to the right. We call this "right-left-right". You can also reverse the scrub's directions, "left-right-left." When you perform a scrub, all the Xs and Os you've drawn will disappear.
 
-If you'd like to become the next great iPad millionaire, you can finish this application up. Add logic for recognizing when a game is won, undoing a move, playing over the internet, and using location services to find nearby players. Good luck!
+But wait, there's more! If you're using a multi-touch device (or a simulator), you can place two fingers on the screen and rotate your fingers. Rotate at least forty-five degrees and lift for fingers from the screen: The board position will "rotate."
 
-**naughts and crosses with gesture events**
+**coding with iGesture**
 
-The naughts and crosses demonstration shows how to use one of iGesture's features, handling gestures using jQuery's custom events. Have a look at [naughts\_and\_crosses.js](naughts\_and\_crosses.js):
+Everything you've seen is handled in Javascript with iGesture and jQuery. If you're interested in gestures, you may already know that you can get lists of touches from the browser or register functions to be called in response to certain callbacks. How much code do think it would take to handle the events for Xs, Os, scrubs, and rotations? 
+
+Twenty, thirty function calls? Maybe fewer than 100 lines of code? How about just *six* function calls: One to `.gesture` and five to bind the `X`, `O`, `scrub`, and `rotate` events? (If you counted four, it's because there's one circle event for each direction you can stroke, but all eight ways you can draw an X are the same event.)
+
+Here's all the iGesture-specific code in naughts and crosses:
 
     $('body')
-  		.gesture([
-  			'close',
-  			'circleclockwise', 'circlecounterclockwise',
-    		# ...
-    	]);
-    
-The `.gesture` function takes a list of gestures as its argument (there's also a way to pass settings, but we won't go into that now). The simplest case is to pass the names of predefined gestures you want. iGesture to handle. iGesture will handle gestures drawn on the receiving node(s) by triggering custom events on the node where the gesture started. In this case we want custom events for `close`, `circleclockwise`, and `circlecounterclockwise` triggered.
+	    .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate', {
+	        scrub: '.square:not(:empty)'
+	    }]);
 
-When the user performs one of these gestures anywhere in the body, iGesture will generate the appropriate custom event: `gesture_close`, `gesture_circleclockwise`, or `gesture_circlecounterclockwise`. The "X" gesture is known as "close" because it is commonly used to dismiss a dialog or close a window. The two "circle" gestures are often used for rotating things because you might want your web application to work even if the browser does not support the multi-touch rotation gesture.
-
-Here is the jQuery-powered code that handles these custom events:
+    $('.board')
+	    .bind('gesture_rotate', function (event) {
+	        rotate(event.rotation);
+	    });
 
     $('.square')
-    	.bind('gesture_circleclockwise', function(event) {
-    		draw(event, 'naught')
-    	})
-    	.bind('gesture_circlecounterclockwise', function(event) {
-    		draw(event, 'naught')
-    	})
-    	.bind('gesture_close', function(event) {
-    		draw(event, 'cross')
-    	})
+	    .bind('gesture_circleclockwise', function (event) {
+	        draw('naught', event.target)
+	    })
+	    .bind('gesture_circlecounterclockwise', function (event) {
+	        draw('naught', event.target)
+	    })
+	    .bind('gesture_close', function (event) {
+	        draw('cross', event.target)
+	    })
+	    .bind('gesture_scrub', function (event) {
+	        $(this).empty();
+	    });
+	    
+Let's take a look at it point by point. The most common use case is turning a gesture into an event that is invoked on the DOM element where the gesture starts. We want each square to handle the Xs and Os, and we want the board to handle rotate. To set that up, you simply give iGesture a list of gestures to turn into events:
 
-Since we're only defining handlers on squares, gestures drawn on other elements would be ignored because the custom events would bubble up and vanish. There are no other elements in this simple demo, but as you can see custom events make for a very natural way to handle gestures, just like clicks and other events you are already handling with jQuery.
+    $('body')
+	    .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate', ...
+    
+Notice that the "X" gesture is actually called `close`, because in many UIs this looks like the little `x` you see in a close control, so it is used to dismiss things like dialogs. We're using it unconventionally: iGesture is not really designed as a handwriting recognition system. Likewise, Os are actually `circle` gestures. Circles are often used for rotating things because you might want your web application to work even if the browser does not support the multi-touch rotation gesture.
+
+We bind a `draw` function to squares in the standard jQuery way:
+
+    $('.square')
+	    .bind('gesture_circleclockwise', function (event) {
+	        draw('naught', event.target)
+	    })
+	    .bind('gesture_circlecounterclockwise', function (event) {
+	        draw('naught', event.target)
+	    })
+	    .bind('gesture_close', function (event) {
+	        draw('cross', event.target)
+	    })
+	    
+The `rotate` gesture is handled by the board, so we bind the handler to the board. If it is performed in a square, it will bubble up just like any other event:
+
+    $('.board')
+	    .bind('gesture_rotate', function (event) {
+	        rotate(event.rotation);
+	    });
+
+As you can see, there's no fuss, no muss, no dealing with multi-touch quirks like lists of touches or discriminating between strokes and multi-touch gestures. You want rotation, you get rotate events.
 
 **scrubbing with dispatched events**
 
-The gesture events used to draw naughts and crosses work much like a typical mouse event in the DOM: They are sent to the DOM element where the gesture starts being stroked. They then bubble up until they are handled. Thus, if you want to be able to draw a gesture anywhere on the screen, you bind the handler to the `body` element.
+The gesture events used to draw naughts and crosses work much like a typical mouse event in the DOM: They are sent to the DOM element where the gesture starts being stroked. They then bubble up until they are handled.
 
 One pattern that comes up commonly is a desire to have a gesture drawn anywhere on the screen, but you want one or more elements in the DOM to handle it individually. In the [go][go] web application, the "close" gesture we are using to drawn an X is used to dismiss any dialog or message on the screen. Instead of the body element doing a search for visible dialogs and closing them, iGesture simply forwards `gesture_close` events to the dialogs and they bind their own handlers for it.
 
 Although there are other ways to clear the Xs and Os, naughts and crosses uses this technique to demonstrate dispatching events:
 
     $('body')
-  		.gesture([
-  			# ...
-  			{ scrub: '.square:not(:empty)' }
-  		]);
-  		
-Note that when we passed the gesture names as strings, we were declaring we wanted custom events triggered on the elements where the first stroke began. But when we pass a an object associating gesture names and jQuery selectors, we are declaring that when the gesture is drawn anywhere on the screen, the event will be triggered on all elements selected by the selector.
+	    .gesture([ ..., {
+	        scrub: '.square:not(:empty)'
+	    }]);
+
+When we passed the gesture names as strings, we were declaring we wanted custom events triggered on the elements where the first stroke began. But when we pass a an object associating gesture names and jQuery selectors, we are declaring that when the gesture is drawn anywhere on the screen, the event will be triggered on all elements selected by the selector.
 
 In naughts and crosses, we are triggering `gesture_scrub` on all squares that are not empty. And naturally, our binding is straightforward:
 
 	$('.square')
-		.bind('gesture_scrub', function(event) {
-			$(this).empty();
-		});
+	    .bind('gesture_scrub', function (event) {
+	        $(this).empty();
+	    });
 		
 This should give you enough to get started. Review the code and how it's used in naughts and crosses. Then try incorporating it into your project. Good luck!
 
@@ -110,3 +134,4 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [mk]: http://users.ecs.soton.ac.uk/amrk03r/
 [java]: http://sourceforge.net/projects/igesture/
 [reg]: http://reginald.braythwayt.com
+[nc]: http://raganwald.github.com/iGesture/naughts_and_crosses.html
