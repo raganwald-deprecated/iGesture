@@ -122,7 +122,7 @@ Sincerely,
 
 ---
 
-*iGuesture would not have been possible without the motivation and support of the [Unspace](http://unspace.ca/ "Unspace") working environment. Thanks! Also, iGesture has nothing to do with the now-defunct [Fingerworks][fw], with [Dr. Maria Karam][mk]'s project, or with anything written in [Java][java].*
+*iGesture is based on Nico Goeminne's [jGesture][jg] callback-oriented plugin. Thanks, Nico! iGesture would not have been possible without the motivation and support of the [Unspace](http://unspace.ca/ "Unspace") working environment. Thanks! Also, iGesture has nothing to do with the now-defunct [Fingerworks][fw], with [Dr. Maria Karam][mk]'s project, or with anything written in [Java][java].*
   
 Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raganwald) or [RSS](http://feeds.feedburner.com/raganwald "raganwald's rss feed"): <a href="http://feeds.feedburner.com/raganwald">.
 
@@ -138,3 +138,4 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [reg]: http://reginald.braythwayt.com
 [nc]: http://raganwald.github.com/iGesture/naughts_and_crosses.html
 [jq]: http://jquery.com
+[jg]: http://web.siruna.com/nico/jgesture/documentation.html
