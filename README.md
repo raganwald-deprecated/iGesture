@@ -52,13 +52,13 @@ There's one to `.gesture` and five to bind the `X`, `O`, `scrub`, and `rotate` e
 
     $('.square')
 	    .bind('gesture_circleclockwise', function (event) {
-	        draw('naught', event.target)
+	        draw('naught', this)
 	    })
 	    .bind('gesture_circlecounterclockwise', function (event) {
-	        draw('naught', event.target)
+	        draw('naught', this)
 	    })
 	    .bind('gesture_close', function (event) {
-	        draw('cross', event.target)
+	        draw('cross', this)
 	    })
 	    .bind('gesture_scrub', function (event) {
 	        $(this).empty();
@@ -75,13 +75,13 @@ We bind a `draw` function to squares in the standard jQuery way:
 
     $('.square')
 	    .bind('gesture_circleclockwise', function (event) {
-	        draw('naught', event.target)
+	        draw('naught', this)
 	    })
 	    .bind('gesture_circlecounterclockwise', function (event) {
-	        draw('naught', event.target)
+	        draw('naught', this)
 	    })
 	    .bind('gesture_close', function (event) {
-	        draw('cross', event.target)
+	        draw('cross', this)
 	    })
 	    
 The `rotate` gesture is handled by the board, so we bind the handler to the board. If it is performed in a square, it will bubble up just like any other event:
