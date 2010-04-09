@@ -185,13 +185,13 @@ $(document).ready(function() {
 
     $('.square')
 	    .bind('gesture_circleclockwise', function (event) {
-	        draw('naught', event.target)
+	        draw('naught', this)
 	    })
 	    .bind('gesture_circlecounterclockwise', function (event) {
-	        draw('naught', event.target)
+	        draw('naught', this)
 	    })
 	    .bind('gesture_close', function (event) {
-	        draw('cross', event.target)
+	        draw('cross', this)
 	    })
 	    .bind('gesture_scrub', function (event) {
 	        $(this).empty();
