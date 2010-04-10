@@ -81,7 +81,6 @@ jQuery.fn.gesture = function(events) {
 					else if (typeof(e[i]) == 'string'){
 						h[i] = selector_maker(e[i]);
 					}
-					else if 
 				}
 				else {
 					settings[i] = e[i];
