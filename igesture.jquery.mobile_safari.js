@@ -65,11 +65,23 @@ jQuery.fn.gesture = function(events) {
 				if (typeof(default_settings[i]) == 'undefined') {
 					var h = (i == 'scale' || i == 'rotate') ? gesture_events : stroke_events;
 					if (typeof(e[i]) == 'function') {
-						h[i] = e[i];
+						if (typeof(e[i]).prototype == 'undefined') {
+							settings.gestures[i] = e[i];
+							if (e == 'scale' || e == 'rotate') {
+								gesture_events[e] = return_target;
+							}
+							else {
+								stroke_events[e] = return_target;
+							}
+						}
+						else {
+							h[i] = e[i];
+						}
 					}
 					else if (typeof(e[i]) == 'string'){
 						h[i] = selector_maker(e[i]);
 					}
+					else if 
 				}
 				else {
 					settings[i] = e[i];
