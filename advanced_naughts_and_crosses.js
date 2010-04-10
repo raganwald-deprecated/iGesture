@@ -174,18 +174,16 @@ $(document).ready(function() {
     };
 
     $('body')
-	    .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate', {
-					about: /^(2.*)?4.*6.*8.*6$/
-				}, {
-	        scrub: '.square:not(:empty)'
-	    }])
-	    .bind('gesture_about', function (event) {
-	        alert('Advanced Naughts and Crosses was written by Reg Braithwaite.');
-	    });
+	    .gesture(
+				['close', 'circleclockwise', 'circlecounterclockwise', 'rotate', {about: /^(2[^2468]*)?4[^2468]*6[^2468]*8[^2468]*$/}, {scrub: '.square:not(:empty)'}]
+		);
 
     $('.board')
 	    .bind('gesture_rotate', function (event) {
 	        rotate(event.rotation);
+	    })
+	    .bind('gesture_about', function (event) {
+	        alert('Advanced Naughts and Crosses was written by Reg Braithwaite.');
 	    });
 
     $('.square')
