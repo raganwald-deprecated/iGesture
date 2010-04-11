@@ -178,14 +178,14 @@ $(document).ready(function() {
 					about: /^(2.*)?4.*6.*8.*6$/
 				}, {
 	        scrub: '.square:not(:empty)'
-	    }])
-	    .bind('gesture_about', function (event) {
-	        alert('Advanced Naughts and Crosses was written by Reg Braithwaite.');
-	    });
+	    }]);
 
     $('.board')
 	    .bind('gesture_rotate', function (event) {
 	        rotate(event.rotation);
+	    })
+	    .bind('gesture_about', function (event) {
+	        alert('Advanced Naughts and Crosses was written by Reg Braithwaite.');
 	    });
 
     $('.square')
