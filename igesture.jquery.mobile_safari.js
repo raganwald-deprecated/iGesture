@@ -381,4 +381,6 @@ jQuery.fn.gesture = function(events) {
 		
 	};
 	
+	return this;
+	
 };
