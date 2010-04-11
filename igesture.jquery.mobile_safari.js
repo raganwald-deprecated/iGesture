@@ -51,7 +51,9 @@ jQuery.fn.gesture = function(events) {
 		disablecontextmenu: true,
 		gestures: {}
 	};
-	var settings = {};
+	var settings = {
+		gestures: {}
+	};
 	
 	jQuery.each(events, function (i, e) {
 		if (e == 'scale' || e == 'rotate') {
