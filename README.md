@@ -121,6 +121,8 @@ Sincerely,
 
 [Reg Braithwaite][reg]
 
+p.s. [Naughts and Crosses][nc] has an [Easter Egg][eegg]. It shouldn't be too difficult to find it and discover how to create your own custom gestures.
+
 ---
 
 *iGesture is based on Nico Goeminne's [jGesture][jg] callback-oriented plugin. Thanks, Nico! iGesture would not have been possible without the motivation and support of the [Unspace](http://unspace.ca/ "Unspace") working environment. Thanks! Also, iGesture has nothing to do with the now-defunct [Fingerworks][fw], with [Dr. Maria Karam][mk]'s project, or with anything written in [Java][java].*
@@ -141,3 +143,4 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [jq]: http://jquery.com
 [jg]: http://web.siruna.com/nico/jgesture/documentation.html
 [announce]: http://github.com/raganwald/homoiconic/blob/master/2010/04/igesture.md#readme "Announcing iGesture"
+[eegg]: http://en.wikipedia.org/wiki/Easter_egg_(media)
