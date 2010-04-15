@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//		 http://www.apache.org/licenses/LICENSE-2.0
+//		http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,12 +24,12 @@
 // Warning: May Contain Underscores
 //					http://ozmm.org/posts/javascript_style.html
 //
-jQuery.fn.gesture = function(events) {
+jQuery.fn.gesture = function (events) {
 	
-	var return_target = function(target) { return target; };
+	var return_target = function (target) { return target; };
 	
 	var selector_maker = function (selector) {
-		return function() { return $(selector); };
+		return function () { return $(selector); };
 	};
 	
 	var stroke_events = {};
@@ -104,37 +104,37 @@ jQuery.fn.gesture = function(events) {
 	
 		var stroke_handler = function (e) {
 
-			 var gesture = {
-					 target: null,
-					 moves: "",
-					 x: -1,
-					 y: -1,
-					 lastmove: "",
-					 continuesmode: false,
-					 getMoveNameAt: function(i) {
-							 switch (Number(this.moves.charAt(i))) {
-							 case 1:
-									 return "topleft";
-							 case 2:
-									 return "top";
-							 case 3:
-									 return "topright";
-							 case 4:
-									 return "right";
-							 case 5:
-									 return "bottomright";
-							 case 6:
-									 return "bottom";
-							 case 7:
-									 return "bottomleft";
-							 case 8:
-									 return "left";
-							 default:
-									 return "unknown";
-							 }
-					 },
-					 getName: function() {
-			 
+			var gesture = {
+				target: null,
+				moves: "",
+				x: -1,
+				y: -1,
+				lastmove: "",
+				continuesmode: false,
+				getMoveNameAt: function (i) {
+					switch (Number(this.moves.charAt(i))) {
+					case 1:
+						return "topleft";
+					case 2:
+						return "top";
+					case 3:
+						return "topright";
+					case 4:
+						return "right";
+					case 5:
+						return "bottomright";
+					case 6:
+						return "bottom";
+					case 7:
+						return "bottomleft";
+					case 8:
+						return "left";
+					default:
+						return "unknown";
+					}
+				},
+				getName: function () {
+		
 					if (this.continuesmode && this.moves.length > 0) {
 						return this.getMoveNameAt(this.moves.length - 1);
 					}
@@ -149,160 +149,151 @@ jQuery.fn.gesture = function(events) {
 					if (this.moves.length < 7) {
 
 						for (gesture_name in settings.gestures) {
-								if (this.moves.match(settings.gestures[gesture_name]))
-									return gesture_name;
+							if (this.moves.match(settings.gestures[gesture_name]))
+								return gesture_name;
 						}
 
 					}
-							 else {
-									 if ((function(str) {
-											 for (var i = 1; i < 8; i++) {
-													 var pre = Number(str.charAt(i - 1));
-													 var cur = Number(str.charAt(i));
-													 if ((pre + 1 == cur) || (pre == cur + 7)) {
-															 continue;
-													 }
-													 return false;
-											 }
-											 return true;
-									 })(this.moves)) return "circleclockwise";
-			 
-									 if ((function(str) {
-											 for (var i = 1; i < 8; i++) {
-													 var pre = Number(str.charAt(i - 1));
-													 var cur = Number(str.charAt(i));
-													 if ((pre == cur + 1) || (pre + 7 == cur)) {
-															 continue;
-													 }
-													 return false;
-											 }
-											 return true;
-									 })(this.moves)) return "circlecounterclockwise";
-							 }
-			 
-							 return "unknown";
-					 }
-			 };
-			 e.preventDefault();
-			 e.stopPropagation();
+					else {
+						if ((function (str) {
+							for (var i = 1; i < 8; i++) {
+								var pre = Number(str.charAt(i - 1));
+								var cur = Number(str.charAt(i));
+								if ((pre + 1 == cur) || (pre == cur + 7)) {
+									continue;
+								}
+								return false;
+							}
+							return true;
+						})(this.moves)) return "circleclockwise";
 
-			 if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
-
-			 gesture.target = e.target;
-
-			 // disable browser context menu.
-			 if (settings.disablecontextmenu) {
-					 $(this).bind("contextmenu",
-					 function(e) {
-							 return false;
-					 });
-			 }
-
-			 gesture.moves = "";
-			 gesture.x = -1;
-			 gesture.y = -1;
-			 gesture.continuesmode = settings.continuesmode;
-
-			 $(this).bind(settings.continueStroke,
-			 function(e) {
-					 var x;
-					 var y;
-					 if (typeof(e.screenX) != 'undefined') {
-						x = e.screenX;
-						y = e.screenY;
+						if ((function (str) {
+							for (var i = 1; i < 8; i++) {
+								var pre = Number(str.charAt(i - 1));
+								var cur = Number(str.charAt(i));
+								if ((pre == cur + 1) || (pre + 7 == cur)) {
+									continue;
+								}
+								return false;
+							}
+							return true;
+						})(this.moves)) return "circlecounterclockwise";
 					}
-					else if (typeof(e.targetTouches) != 'undefined') {
-						x = e.targetTouches[0].pageX;
-						y = e.targetTouches[0].pageY;
+
+					return "unknown";
+				}
+			};
+			e.preventDefault();
+			e.stopPropagation();
+
+			if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
+
+			gesture.target = e.target;
+
+			// disable browser context menu.
+			if (settings.disablecontextmenu) {
+				$(this).bind("contextmenu", function (e) { return false; });
+			}
+
+			gesture.moves = "";
+			gesture.x = -1;
+			gesture.y = -1;
+			gesture.continuesmode = settings.continuesmode;
+
+			$(this).bind(settings.continueStroke,
+			function (e) {
+				var x;
+				var y;
+				if (typeof(e.screenX) != 'undefined') {
+					x = e.screenX;
+					y = e.screenY;
+				}
+				else if (typeof(e.targetTouches) != 'undefined') {
+					x = e.targetTouches[0].pageX;
+					y = e.targetTouches[0].pageY;
+				}
+				else if (typeof(e.originalEvent) == 'undefined') {
+					var str = '';
+					for (i in e) {
+						str += ', ' + i + ': ' + e[i];
 					}
-					else if (typeof(e.originalEvent) == 'undefined') {
-						var str = '';
-						for (i in e) {
-							str += ', ' + i + ': ' + e[i];
+					console.error("don't understand x and y for " + e.type + ' event: ' + str);
+				}
+				else if (typeof(e.originalEvent.screenX) != 'undefined') {
+					x = e.originalEvent.screenX;
+					y = e.originalEvent.screenY;
+				}
+				else if (typeof(e.originalEvent.targetTouches) != 'undefined') {
+					x = e.originalEvent.targetTouches[0].pageX;
+					y = e.originalEvent.targetTouches[0].pageY;
+					if (e.originalEvent.targetTouches.length > 1) {
+						$(this).unbind(settings.continueStroke);
+						$(this).unbind(settings.stopStroke);
+						return;
+					}
+				}
+				
+				if ((gesture.x == -1) && (gesture.y == -1)) {
+						gesture.x = x;
+						gesture.y = y;
+						return;
+				}
+				var distance = Math.sqrt(Math.pow(x - gesture.x, 2) + Math.pow(y - gesture.y, 2));
+				if (distance > settings.minDistance) {
+					var angle = Math.atan2(x - gesture.x, y - gesture.y) / Math.PI + 1;
+					var dir = 0;
+					if (3 / 8 < angle && angle < 5 / 8) dir = 8;
+					if (5 / 8 < angle && angle < 7 / 8) dir = 7;
+					if (7 / 8 < angle && angle < 9 / 8) dir = 6;
+					if (9 / 8 < angle && angle < 11 / 8) dir = 5;
+					if (11 / 8 < angle && angle < 13 / 8) dir = 4;
+					if (13 / 8 < angle && angle < 15 / 8) dir = 3;
+					if (15 / 8 < angle || angle < 1 / 8) dir = 2;
+					if (1 / 8 < angle && angle < 3 / 8) dir = 1;
+
+					gesture.x = x;
+					gesture.y = y;
+
+					if (gesture.moves.length == 0) {
+						gesture.moves += dir;
+						gesture.lastmove = "" + dir;
+					}
+					else {
+						if (settings.repeat || (gesture.moves.charAt(gesture.moves.length - 1) != dir)) {
+							gesture.moves += dir;
+							gesture.lastmove = "" + dir;
 						}
-						console.error("don't understand x and y for " + e.type + ' event: ' + str);
 					}
-					else if (typeof(e.originalEvent.screenX) != 'undefined') {
-						x = e.originalEvent.screenX;
-						y = e.originalEvent.screenY;
+					if (settings.continuesmode && stroke_events[gesture.getName()]) {
+						var gesture_event = jQuery.Event("gesture_" + name);
+						gesture_event.gesture_data = gesture;
+						stroke_events[gesture.getName()]($(gesture.target)).trigger(gesture_event);
 					}
-					else if (typeof(e.originalEvent.targetTouches) != 'undefined') {
-						x = e.originalEvent.targetTouches[0].pageX;
-						y = e.originalEvent.targetTouches[0].pageY;
-						if (e.originalEvent.targetTouches.length > 1) {
-							 $(this).unbind(settings.continueStroke);
-							 $(this).unbind(settings.stopStroke);
-							return;
-						}
-					}
-					
-					 if ((gesture.x == -1) && (gesture.y == -1)) {
-							 gesture.x = x;
-							 gesture.y = y;
-							 return;
-					 }
-					 var distance = Math.sqrt(Math.pow(x - gesture.x, 2) + Math.pow(y - gesture.y, 2));
-					 if (distance > settings.minDistance) {
-							 var angle = Math.atan2(x - gesture.x, y - gesture.y) / Math.PI + 1;
-							 var dir = 0;
-							 if (3 / 8 < angle && angle < 5 / 8) dir = 8;
-							 if (5 / 8 < angle && angle < 7 / 8) dir = 7;
-							 if (7 / 8 < angle && angle < 9 / 8) dir = 6;
-							 if (9 / 8 < angle && angle < 11 / 8) dir = 5;
-							 if (11 / 8 < angle && angle < 13 / 8) dir = 4;
-							 if (13 / 8 < angle && angle < 15 / 8) dir = 3;
-							 if (15 / 8 < angle || angle < 1 / 8) dir = 2;
-							 if (1 / 8 < angle && angle < 3 / 8) dir = 1;
-
-							 gesture.x = x;
-							 gesture.y = y;
-
-							 if (gesture.moves.length == 0) {
-									 gesture.moves += dir;
-									 gesture.lastmove = "" + dir;
-							 }
-							 else {
-									 if (settings.repeat || (gesture.moves.charAt(gesture.moves.length - 1) != dir)) {
-											 gesture.moves += dir;
-											 gesture.lastmove = "" + dir;
-									 }
-							 }
-							 if (settings.continuesmode && stroke_events[gesture.getName()]) {
-								 var gesture_event = jQuery.Event("gesture_" + name);
-								 gesture_event.gesture_data = gesture;
-								 stroke_events[gesture.getName()]($(gesture.target)).trigger(gesture_event);
-							 }
-					 }
-			 });
+				}
+			});
 		
-			 $(this).bind(settings.stopStroke,
-			 function(e) {
-					 if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
+			$(this).bind(settings.stopStroke,
+			function (e) {
+				if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
 
-					 if (!settings.disablecontextmenu) {
-							 $(this).unbind("contextmenu");
-					 }
-					 $(this).unbind(settings.continueStroke);
-					 $(this).unbind(settings.stopStroke);
-					 if (gesture.moves.length != 0 && stroke_events[gesture.getName()]) {
-						// console.log(gesture.getName() + ' generated by ' + event.type + ' and event created');
-						 var gesture_event = jQuery.Event("gesture_" + gesture.getName());
-						 gesture_event.gesture_data = gesture;
-						var tar = stroke_events[gesture.getName()]($(gesture.target));
-						// console.log('dispatched to ' + tar.attr('class'));
-						 tar.trigger(gesture_event);
-					 }
-					else if (gesture.moves.length != 0) {
-						// console.log(gesture.getName() + ' generated by ' + event.type);
-					}
-				});
+				if (!settings.disablecontextmenu) {
+					$(this).unbind("contextmenu");
+				}
+				$(this).unbind(settings.continueStroke);
+				$(this).unbind(settings.stopStroke);
+				if (gesture.moves.length != 0 && stroke_events[gesture.getName()]) {
+					var gesture_event = jQuery.Event("gesture_" + gesture.getName());
+					gesture_event.gesture_data = gesture;
+					stroke_events[gesture.getName()]($(gesture.target)).trigger(gesture_event);
+				}
+			});
 			
 		};
 	
 		this.bind(settings.startStroke, stroke_handler);
 		
 	};
-	
+			
 	if (!jQuery.isEmptyObject(gesture_events)) {
 		
 		var gesture_handler = function (e) {
@@ -313,10 +304,7 @@ jQuery.fn.gesture = function(events) {
 
 			// disable browser context menu.
 			if (settings.disablecontextmenu) {
-					$(this).bind("contextmenu",
-					function(e) {
-							return false;
-					});
+				$(this).bind("contextmenu", function (e) { return false; });
 			}
 
 			gesture.moves = "";
@@ -328,34 +316,33 @@ jQuery.fn.gesture = function(events) {
 			gesture.rotation = 0;
 
 			$(this).bind(settings.continueGesture,
-			function(e) {
-			 e.preventDefault();
-			 e.stopPropagation();
-					var scale_diff = e.originalEvent.scale - 1.0;
-					gesture.scale += scale_diff;
-					var rotation_diff = e.originalEvent.rotation - gesture.rotation
-					gesture.rotation = e.originalEvent.rotation
-					if (settings.continuesmode) {
-						if (Math.abs(gesture.scale - 1.0) >= settings.minScale && gesture_events['scale']) {
-							var gesture_event = jQuery.Event('gesture_scale');
-							gesture_event.gesture_data = jQuery.extend(gesture, { name: 'scale' });
-							gesture_event.scale = gesture.scale;
-							gesture_events['scale']($(gesture.target)).trigger(gesture_event);
-							gesture.scale = 1.0;
-						}
-						if (Math.abs(rotation_diff % 360) >= settings.minRotation && gesture_events['rotate']) {
-							var gesture_event = jQuery.Event('gesture_rotate');
-							gesture_event.gesture_data = jQuery.extend(gesture, { name: 'rotate' });
-							gesture_event.rotation = rotation_diff;
-							gesture_events['rotate']($(gesture.target)).trigger(gesture_event);
-							gesture.rotation = 0;
-						}
-					}
-					e.preventDefault();
+			function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var scale_diff = e.originalEvent.scale - 1.0;
+			gesture.scale += scale_diff;
+			var rotation_diff = e.originalEvent.rotation - gesture.rotation
+			gesture.rotation = e.originalEvent.rotation
+			if (settings.continuesmode) {
+				if (Math.abs(gesture.scale - 1.0) >= settings.minScale && gesture_events['scale']) {
+					var gesture_event = jQuery.Event('gesture_scale');
+					gesture_event.gesture_data = jQuery.extend(gesture, { name: 'scale' });
+					gesture_event.scale = gesture.scale;
+					gesture_events['scale']($(gesture.target)).trigger(gesture_event);
+					gesture.scale = 1.0;
+				}
+				if (Math.abs(rotation_diff % 360) >= settings.minRotation && gesture_events['rotate']) {
+					var gesture_event = jQuery.Event('gesture_rotate');
+					gesture_event.gesture_data = jQuery.extend(gesture, { name: 'rotate' });
+					gesture_event.rotation = rotation_diff;
+					gesture_events['rotate']($(gesture.target)).trigger(gesture_event);
+					gesture.rotation = 0;
+				}
+			}
+			e.preventDefault();
 			});
 
-			$(this).bind(settings.stopGesture,
-			function(e) {
+			$(this).bind(settings.stopGesture, function (e) {
 				if (Math.abs(gesture.scale - 1.0) >= settings.minScale && gesture_events['scale']) {
 					var gesture_event = jQuery.Event('gesture_scale');
 					gesture_event.gesture_data = jQuery.extend(gesture, { name: 'scale' });
