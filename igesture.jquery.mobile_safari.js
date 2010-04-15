@@ -53,6 +53,7 @@ jQuery.fn.gesture = function (events) {
 		continuesmode: false,
 		repeat: false,
 		disablecontextmenu: true,
+		expires: 2000,
 		gestures: {}
 	};
 	var settings = {
@@ -105,7 +106,9 @@ jQuery.fn.gesture = function (events) {
 		var stroke_handler = function (e) {
 
 			var gesture = {
-				target: null,
+				target: e.target,
+				originalEvent: e,
+				expiresTime: (e.timestamp + settings.expires),
 				moves: "",
 				x: -1,
 				y: -1,
@@ -187,9 +190,7 @@ jQuery.fn.gesture = function (events) {
 			e.stopPropagation();
 
 			if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
-
-			gesture.target = e.target;
-
+			
 			// disable browser context menu.
 			if (settings.disablecontextmenu) {
 				$(this).bind("contextmenu", function (e) { return false; });
@@ -234,9 +235,9 @@ jQuery.fn.gesture = function (events) {
 				}
 				
 				if ((gesture.x == -1) && (gesture.y == -1)) {
-						gesture.x = x;
-						gesture.y = y;
-						return;
+					gesture.x = x;
+					gesture.y = y;
+					return;
 				}
 				var distance = Math.sqrt(Math.pow(x - gesture.x, 2) + Math.pow(y - gesture.y, 2));
 				if (distance > settings.minDistance) {
@@ -270,6 +271,8 @@ jQuery.fn.gesture = function (events) {
 						stroke_events[gesture.getName()]($(gesture.target)).trigger(gesture_event);
 					}
 				}
+				else if (gesture.moves.length == 0 && e.timestamp > settings.expires)
+					console.log('Expired!');
 			});
 		
 			$(this).bind(settings.stopStroke,
