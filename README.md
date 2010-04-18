@@ -6,9 +6,9 @@ iGesture provides an event-driven model for supporting *gestures* (like swiping 
 
 iGesture is a [jQuery][jq] plugin.
 
-**naughts and crosses**
+**Naughts and Crosses**
 
-[Naughts and crosses][nc] is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser or on an iPhone. Load it up in a modern browser, on an iPhone, or on an iPad. You should see a blank board:
+[Naughts and crosses][nc] is a ridiculously simple game of Naughts and Crosses intended for "pass and play" on a standard browser or on an iPhone. Load it up in a modern browser, on an iPhone, or on an iPad. You should see a blank board:
 
 ![Blank][blank]
 
@@ -40,7 +40,7 @@ But wait, there's more! If you're using a multi-touch device (or a simulator), y
 
 Everything you've seen is handled in Javascript with iGesture and jQuery. If you're interested in gestures, you may already know that you can get lists of touches from the browser or register functions to be called in response to certain callbacks. How much code do think it would take to handle the events for Xs, Os, swipes, scrubs, and rotations? Twenty, thirty function calls? Maybe 100 lines of code?
 
-Here's <u>all</u> the iGesture-specific code in naughts and crosses:
+Here's <u>all</u> the iGesture-specific code in Naughts and Crosses:
 
     $('.board')
 	    .gesture(['left', 'right', 'close', 'circleclockwise', 'circlecounterclockwise', 'rotate',
@@ -105,20 +105,20 @@ As you can see, there's no fuss, no muss, no dealing with multi-touch quirks lik
 
 **scrubbing with dispatched events**
 
-The gesture events used to draw naughts and crosses work much like a typical mouse event in the DOM: They are sent to the DOM element where the gesture starts being stroked. They then bubble up until they are handled.
+The gesture events used to draw Naughts and Crosses work much like a typical mouse event in the DOM: They are sent to the DOM element where the gesture starts being stroked. They then bubble up until they are handled.
 
 One pattern that comes up commonly is a desire to have a gesture drawn anywhere on the screen, but you want one or more elements in the DOM to handle it individually. In the [go][go] web application, the "close" gesture we are using to drawn an X is used to dismiss any dialog or message on the screen. Instead of the body element doing a search for visible dialogs and closing them, iGesture simply forwards `gesture_close` events to the dialogs and they bind their own handlers for it.
 
-Although there are other ways to clear the Xs and Os, naughts and crosses uses this technique to demonstrate dispatching events:
+Although there are other ways to clear the Xs and Os, Naughts and Crosses uses this technique to demonstrate dispatching events:
 
     $('.board')
 	    .gesture([ ..., {
 	        scrub: '.square:not(:empty)'
 	    }]);
 
-When we passed the gesture names as strings, we were declaring we wanted custom events triggered on the elements where the first stroke began. But when we pass a an object associating gesture names and jQuery selectors, we are declaring that when the gesture is drawn anywhere on the board, the event will be triggered on all elements selected by the selector.
+When we passed the gesture names as strings, we were declaring we wanted custom events triggered on the elements where the first stroke began. But when we pass an object associating gesture names and jQuery selectors, we are declaring that when the gesture is drawn anywhere on the board, the event will be triggered on all elements selected by the selector.
 
-In naughts and crosses, we are triggering `gesture_scrub` on all squares that are not empty. And naturally, our binding is straightforward:
+In Naughts and Crosses, we are triggering `gesture_scrub` on all squares that are not empty. And naturally, our binding is straightforward:
 
     $('.square')
       .bind({
@@ -127,7 +127,7 @@ In naughts and crosses, we are triggering `gesture_scrub` on all squares that ar
         }
       });
 		
-This should give you enough to get started. Review the code and how it's used in naughts and crosses. Then try incorporating it into your project. Good luck!
+This should give you enough to get started. Review the code and how it's used in Naughts and Crosses. Then try incorporating it into your project. Good luck!
 
 Sincerely,
 
