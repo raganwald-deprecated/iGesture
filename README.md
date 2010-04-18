@@ -26,9 +26,11 @@ The slashes of the "X" need to be close to 45 degrees to work properly. If you a
 
 Let's try something a lot simpler, the swipe gesture that is very common in the iPhone user interface. If you've used the Mail app on an iPhone or iPod Touch, you may know that when you swipe from left to right or right to left across a message in your inbox or other folder, a red delete button appears on the message, allowing you to delete it.
 
+> [Apple Newton's] "scrub" erase remains an awesome design achievement that is still easier to use than anything else I see in the mobile device market&#8212;[Todd Ogasawara][quote]
+
 Make a "right" or "left" gesture with your finger starting inside an existing naught or cross by swiping from left to right or right to left. Swipe smoothly so that the browser doesn't think you're clicking the image. You will see a red delete button appear. If you swipe again, it disappears. Just like iPhone's Mail application.
 
-> [Apple Newton's] "scrub" erase remains an awesome design achievement that is still easier to use than anything else I see in the mobile device market&#8212;[Todd Ogasawara][quote]
+![Swipe to reveal delete][swipe]
 
 Now try a "scrub" gesture: Place your finger anywhere on the left side of the screen, stroke to the right, back to the left, and back to the right. We call this "right-left-right". You can also reverse the scrub's directions, "left-right-left." When you perform a scrub, all the Xs and Os you've drawn will disappear.
 
@@ -142,6 +144,7 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [blank]: /raganwald/iGesture/raw/master/about/blank.png  "Blank"
 [gestures]: /raganwald/iGesture/raw/master/about/gestures.png  "Example Gestures"
 [oxox]: /raganwald/iGesture/raw/master/about/oxox.png  "In Play"
+[swipe]: /raganwald/iGesture/raw/master/about/swipe.png "Swipe"
 
 [mcu]: http://ozmm.org/posts/javascript_style.html "JavaScript Style"
 [go]: http://github.com/raganwald/go "Go"
