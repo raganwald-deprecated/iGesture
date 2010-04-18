@@ -40,58 +40,58 @@ How about just *six* function calls&#8253;
 
 There's one to `.gesture` and five to bind the `X`, `O`, `scrub`, and `rotate` events. (If you counted four, it's because there's one circle event for each direction you can stroke, but all eight ways you can draw an X are the same event.) Here's <u>all</u> the iGesture-specific code in naughts and crosses:
 
-    $('body')
-	    .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate', {
-	        scrub: '.square:not(:empty)'
-	    }]);
-
     $('.board')
-	    .bind('gesture_rotate', function (event) {
-	        rotate(event.rotation);
-	    });
+      .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate',
+        { scrub: '.square:not(:empty)' }
+      ])
+      .bind({
+        gesture_rotate: function (event) {
+          rotate(event.rotation);
+        }
+      });
 
     $('.square')
-	    .bind('gesture_circleclockwise', function (event) {
-	        draw('naught', this)
-	    })
-	    .bind('gesture_circlecounterclockwise', function (event) {
-	        draw('naught', this)
-	    })
-	    .bind('gesture_close', function (event) {
-	        draw('cross', this)
-	    })
-	    .bind('gesture_scrub', function (event) {
-	        $(this).empty();
-	    });
+      .bind({
+        'gesture_circleclockwise gesture_circlecounterclockwise': function (event) {
+            draw('naught', this)
+        },
+        gesture_close: function (event) {
+          	draw('cross', this)
+        },
+        gesture_scrub: function (event) {
+          	$(this).empty();
+        }
+      });
 	    
-Let's take a look at it point by point. The most common use case is turning a gesture into an event that is invoked on the DOM element where the gesture starts. We want each square to handle the Xs and Os, and we want the board to handle rotate. To set that up, you simply give iGesture a list of gestures to turn into events:
+Let's take a look at it point by point. The most common use case is turning a gesture into an event that is invoked on the DOM element where the gesture starts. We want each square to handle the Xs and Os, and we want the board to handle rotate. To set that up, you simply give a list of gestures to a DOM element:
 
-    $('body')
+    $('.board')
 	    .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate', ...
     
-Notice that the "X" gesture is actually called `close`, because in many UIs this looks like the little `x` you see in a close control, so it is used to dismiss things like dialogs. We're using it unconventionally: iGesture is not really designed as a handwriting recognition system. Likewise, Os are actually `circle` gestures. Circles are often used for rotating things because you might want your web application to work even if the browser does not support the multi-touch rotation gesture.
+iGesture will bind the appropriate mouse and touch events to the DOM element for you.
 
-We bind a `draw` function to squares in the standard jQuery way:
+(Notice that the "X" gesture is actually called `close`, because in many UIs this looks like the little `x` you see in a close control, so it is used to dismiss things like dialogs. We're using it unconventionally: iGesture is not really designed as a handwriting recognition system. Likewise, Os are actually `circle` gestures. Circles are also handy for rotating things because you might want your web application to work even if the browser does not support the multi-touch rotation gesture.)
+
+We bind a `draw` function to squares using jQuery by passing a hash of events and functions to the `.bind` method:
 
     $('.square')
-	    .bind('gesture_circleclockwise', function (event) {
-	        draw('naught', this)
-	    })
-	    .bind('gesture_circlecounterclockwise', function (event) {
-	        draw('naught', this)
-	    })
-	    .bind('gesture_close', function (event) {
-	        draw('cross', this)
-	    })
+      .bind({
+        'gesture_circleclockwise gesture_circlecounterclockwise': function (event) {
+            draw('naught', this)
+        },
+        gesture_close: function (event) {
+          	draw('cross', this)
+        }
+      });
 	    
-The `rotate` gesture is handled by the board, so we bind the handler to the board. If it is performed in a square, it will bubble up just like any other event:
+The `rotate` gesture is handled by the board, so we bind the handler to the board:
 
     $('.board')
 	    .bind('gesture_rotate', function (event) {
 	        rotate(event.rotation);
 	    });
 
-As you can see, there's no fuss, no muss, no dealing with multi-touch quirks like lists of touches or discriminating between strokes and multi-touch gestures. You want rotation, you get rotate events.
+As you can see, there's no fuss, no muss, no dealing with multi-touch quirks like lists of touches or discriminating between strokes and multi-touch gestures. If you want to support multi-touch rotation gestures, you handle rotate gesture events and iGesture takes care of the rest.
 
 **scrubbing with dispatched events**
 
@@ -101,12 +101,12 @@ One pattern that comes up commonly is a desire to have a gesture drawn anywhere 
 
 Although there are other ways to clear the Xs and Os, naughts and crosses uses this technique to demonstrate dispatching events:
 
-    $('body')
+    $('.board')
 	    .gesture([ ..., {
 	        scrub: '.square:not(:empty)'
 	    }]);
 
-When we passed the gesture names as strings, we were declaring we wanted custom events triggered on the elements where the first stroke began. But when we pass a an object associating gesture names and jQuery selectors, we are declaring that when the gesture is drawn anywhere on the screen, the event will be triggered on all elements selected by the selector.
+When we passed the gesture names as strings, we were declaring we wanted custom events triggered on the elements where the first stroke began. But when we pass a an object associating gesture names and jQuery selectors, we are declaring that when the gesture is drawn anywhere on the board, the event will be triggered on all elements selected by the selector.
 
 In naughts and crosses, we are triggering `gesture_scrub` on all squares that are not empty. And naturally, our binding is straightforward:
 
