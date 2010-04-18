@@ -6,12 +6,6 @@ iGesture provides an event-driven model for supporting *gestures* (like swiping 
 
 iGesture is a [jQuery][jq] plugin.
 
-**doesn't mobile safari already give me gesture support?**
-
-Mobile Safari has high-level support or handling scaling and rotation with two fingers. You can also get incredibly detailed and track each finger separately if you need to. However, if you want to use strokes like swiping up or down or drawing a circle with one finger, you have to track the touch movements yourself.
-
-With iGesture, you have predefined gestures like "left," "top," and "scrub" (A back-and-forth wiping) that are automatically turned into jQuery custom events so you can bind functions to the individual gestures on specific elements rather than having a massive switch statement inside your `touchmove` handler. Your code is more 'jQuery-ish'.
-
 **naughts and crosses**
 
 [Naughts and crosses][nc] is a ridiculously simple game of naughts and crosses intended for "pass and play" on a standard browser or on an iPhone. Load it up in a modern browser, on an iPhone, or on an iPad. You should see a blank board:
@@ -87,9 +81,11 @@ We bind a `draw` function to squares using jQuery by passing a hash of events an
 The `rotate` gesture is handled by the board, so we bind the handler to the board:
 
     $('.board')
-	    .bind('gesture_rotate', function (event) {
-	        rotate(event.rotation);
-	    });
+      .bind({
+        gesture_rotate: function (event) {
+          rotate(event.rotation);
+        }
+      });
 
 As you can see, there's no fuss, no muss, no dealing with multi-touch quirks like lists of touches or discriminating between strokes and multi-touch gestures. If you want to support multi-touch rotation gestures, you handle rotate gesture events and iGesture takes care of the rest.
 
@@ -110,10 +106,12 @@ When we passed the gesture names as strings, we were declaring we wanted custom 
 
 In naughts and crosses, we are triggering `gesture_scrub` on all squares that are not empty. And naturally, our binding is straightforward:
 
-	$('.square')
-	    .bind('gesture_scrub', function (event) {
-	        $(this).empty();
-	    });
+    $('.square')
+      .bind({
+        gesture_scrub: function (event) {
+          	$(this).empty();
+        }
+      });
 		
 This should give you enough to get started. Review the code and how it's used in naughts and crosses. Then try incorporating it into your project. Good luck!
 
