@@ -172,33 +172,32 @@ $(document).ready(function() {
         $('.row.bottom .square.right')
         	.append(squares.bottom.right);
     };
-
-    $('body')
+		
+    $('.board')
 	    .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate',
 			{ scrub: '.square:not(:empty)' },
 			{ about: /^(2.*)?4.*6.*8.*6$/  }
-		]);
-
-    $('.board')
-	    .bind('gesture_rotate', function (event) {
-	        rotate(event.rotation);
-	    })
-	    .bind('gesture_about', function (event) {
-	        alert('Naughts and Crosses was written by Reg Braithwaite.');
-	    });
+		])
+	    .bind({
+			gesture_rotate: function (event) {
+				rotate(event.rotation);
+	    	},
+	    	gesture_about: function (event) {
+	        	alert('Naughts and Crosses was written by Reg Braithwaite.');
+	    	}
+		});
 
     $('.square')
-	    .bind('gesture_circleclockwise', function (event) {
-	        draw('naught', this)
-	    })
-	    .bind('gesture_circlecounterclockwise', function (event) {
-	        draw('naught', this)
-	    })
-	    .bind('gesture_close', function (event) {
-	        draw('cross', this)
-	    })
-	    .bind('gesture_scrub', function (event) {
-	        $(this).empty();
-	    });
+	    .bind({
+			'gesture_circleclockwise gesture_circlecounterclockwise': function (event) {
+		        draw('naught', this)
+		    },
+	    	gesture_close: function (event) {
+	        	draw('cross', this)
+	    	},
+	    	gesture_scrub: function (event) {
+	        	$(this).empty();
+	    	}
+		});
 
 });
