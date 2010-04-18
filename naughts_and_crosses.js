@@ -94,14 +94,14 @@ $(document).ready(function() {
 		        .each(function(index, element) {
 		            var arr = (what == 'naught') ? images.naughts: images.crosses;
 		            var links = arr[Math.floor(Math.random() * arr.length)];
-		            // $('<a></a>')
-		            // 	.attr('href', links.href)
-		            // 	.prepend(
+		            $('<a></a>')
+		            	.attr('href', links.href)
+		            	.prepend(
 		            		$('<img/>')
 								.addClass('xo')
 			            		.attr('src', links.src)
 			            		.attr('alt', what)
-		            	// )
+		            	)
 		            .prependTo($(element));
 		        });
     };
