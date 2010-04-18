@@ -26,11 +26,18 @@
             border-left-style: solid;
             border-right-style: solid; }
           .board .row .square img {
-            height: 135px;
-            width: 135px;
             display: block;
-            margin-top: 5px;
-            margin-left: 5px; }
+            margin-left: auto;
+            margin-right: auto; }
+            .board .row .square img.xo {
+              height: 135px;
+              width: 135px;
+              margin-top: 5px;
+              z-index: 1; }
+            .board .row .square img.delete {
+              position: relative;
+              z-index: 2;
+              margin-top: -80px; }
     </style>
   </head>
   <body>

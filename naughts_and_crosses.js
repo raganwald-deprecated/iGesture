@@ -94,13 +94,14 @@ $(document).ready(function() {
 		        .each(function(index, element) {
 		            var arr = (what == 'naught') ? images.naughts: images.crosses;
 		            var links = arr[Math.floor(Math.random() * arr.length)];
-		            $('<a></a>')
-		            .attr('href', links.href)
-		            .prepend(
-		            $('<img/>')
-		            .attr('src', links.src)
-		            .attr('alt', what)
-		            )
+		            // $('<a></a>')
+		            // 	.attr('href', links.href)
+		            // 	.prepend(
+		            		$('<img/>')
+								.addClass('xo')
+			            		.attr('src', links.src)
+			            		.attr('alt', what)
+		            	// )
 		            .prependTo($(element));
 		        });
     };
@@ -172,9 +173,38 @@ $(document).ready(function() {
         $('.row.bottom .square.right')
         	.append(squares.bottom.right);
     };
+
+	var toggle_delete = function (where) {
+		var add_delete_to = $(where)
+			.filter(':not(:empty)')
+				.filter(':not(:has(.delete))');
+		var remove_delete_from = $(where)
+			.filter(':not(:empty)')
+				.filter(':has(.delete)');
+		add_delete_to
+			.append(
+				$('<img/>')
+					.attr('src', 'images/delete.png')
+					.addClass('delete')
+					.click(function () { 
+						$(this)
+							.parents('.square')
+								.find('*')
+									.fadeOut('slow')
+									.remove(); 
+					})
+					.hide()
+			)
+			.find('.delete')
+				.fadeIn();
+		remove_delete_from
+			.find('.delete')
+				.fadeOut('slow')
+				.remove();
+	};
 		
     $('.board')
-	    .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate',
+	    .gesture(['left', 'right', 'close', 'circleclockwise', 'circlecounterclockwise', 'rotate',
 			{ scrub: '.square:not(:empty)' },
 			{ about: /^(2.*)?4.*6.*8.*6$/  }
 		])
@@ -197,7 +227,10 @@ $(document).ready(function() {
 	    	},
 	    	gesture_scrub: function (event) {
 	        	$(this).empty();
-	    	}
+	    	},
+			'gesture_left gesture_right': function (event) {
+				toggle_delete(this);
+			}
 		});
 
 });

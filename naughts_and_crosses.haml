@@ -37,12 +37,21 @@
                   :right
                     :style solid
               img
-                :height 135px
-                :width 135px
                 :display block
                 :margin
-                  :top 5px
-                  :left 5px
+                  :left auto
+                  :right auto
+                &.xo
+                  :height 135px
+                  :width 135px
+                  :margin
+                    :top 5px
+                  :z-index 1
+                &.delete
+                  :position relative
+                  :z-index 2
+                  :margin
+                    :top -80px
   %body
     .board
       .row.top
