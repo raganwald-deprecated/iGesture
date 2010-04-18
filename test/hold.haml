@@ -5,14 +5,18 @@
     %meta{:name => "viewport", :content => "user-scalable=no, width=500;"}
     %script{:src=>"http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js", :type=>"text/javascript", :charset=>"utf-8"}
     %script{:src=>"../igesture.jquery.mobile_safari.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>"jquery.timers-1.2.js", :type=>"text/javascript", :charset=>"utf-8"}
     %style
       :sass
     :javascript
       $(document).ready(function() {
         $('p')
-          .gesture('hold')
+          .gesture(['hold', 'left', 'right'])
           .bind('gesture_hold', function (event) {
             $(this).text("You held me.");
+          })
+          .bind('gesture_left gesture_right', function (event) {
+            $(this).text("You swiped me.");
           });
       });
   %body
