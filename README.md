@@ -22,51 +22,60 @@ The slashes of the "X" need to be close to 45 degrees to work properly. If you a
 
 ![In Play][oxox]
 
+**what about the kinds of gestures in a typical iPhone application?**
+
+Let's try something a lot simpler, the swipe gesture that is very common in the iPhone user interface. If you've used the Mail app on an iPhone or iPod Touch, you may know that when you swipe from left to right or right to left across a message in your inbox or other folder, a red delete button appears on the message, allowing you to delete it.
+
+Make a "right" or "left" gesture with your finger starting inside an existing naught or cross by swiping from left to right or right to left. Swipe smoothly so that the browser doesn't think you're clicking the image. You will see a red delete button appear. If you swipe again, it disappears. Just like iPhone's Mail application.
+
+> [Apple Newton's] "scrub" erase remains an awesome design achievement that is still easier to use than anything else I see in the mobile device market&#8212;[Todd Ogasawara][quote]
+
 Now try a "scrub" gesture: Place your finger anywhere on the left side of the screen, stroke to the right, back to the left, and back to the right. We call this "right-left-right". You can also reverse the scrub's directions, "left-right-left." When you perform a scrub, all the Xs and Os you've drawn will disappear.
 
 But wait, there's more! If you're using a multi-touch device (or a simulator), you can place two fingers on the screen and rotate your fingers. Rotate at least forty-five degrees and lift for fingers from the screen: The board position will "rotate."
 
 **coding with iGesture**
 
-Everything you've seen is handled in Javascript with iGesture and jQuery. If you're interested in gestures, you may already know that you can get lists of touches from the browser or register functions to be called in response to certain callbacks. How much code do think it would take to handle the events for Xs, Os, scrubs, and rotations? Twenty, thirty function calls? Maybe fewer than 100 lines of code?
+Everything you've seen is handled in Javascript with iGesture and jQuery. If you're interested in gestures, you may already know that you can get lists of touches from the browser or register functions to be called in response to certain callbacks. How much code do think it would take to handle the events for Xs, Os, swipes, scrubs, and rotations? Twenty, thirty function calls? Maybe 100 lines of code?
 
-How about just *six* function calls&#8253;
-
-There's one to `.gesture` and five to bind the `X`, `O`, `scrub`, and `rotate` events. (If you counted four, it's because there's one circle event for each direction you can stroke, but all eight ways you can draw an X are the same event.) Here's <u>all</u> the iGesture-specific code in naughts and crosses:
+Here's <u>all</u> the iGesture-specific code in naughts and crosses:
 
     $('.board')
-      .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate',
-        { scrub: '.square:not(:empty)' }
-      ])
-      .bind({
-        gesture_rotate: function (event) {
-          rotate(event.rotation);
-        }
-      });
+	    .gesture(['left', 'right', 'close', 'circleclockwise', 'circlecounterclockwise', 'rotate',
+  			{ scrub: '.square:not(:empty)' }
+  		])
+	    .bind({
+  			gesture_rotate: function (event) {
+  				rotate(event.rotation);
+  	    },
+		  });
 
     $('.square')
-      .bind({
-        'gesture_circleclockwise gesture_circlecounterclockwise': function (event) {
-            draw('naught', this)
-        },
-        gesture_close: function (event) {
-          	draw('cross', this)
-        },
-        gesture_scrub: function (event) {
-          	$(this).empty();
-        }
-      });
+	    .bind({
+  			'gesture_circleclockwise gesture_circlecounterclockwise': function (event) {
+  		      draw('naught', this)
+  		  },
+  	    gesture_close: function (event) {
+  	        draw('cross', this)
+  	    },
+  	    gesture_scrub: function (event) {
+  	        $(this).empty();
+  	    },
+  			'gesture_left gesture_right': function (event) {
+  				  toggle_delete(this);
+  			}
+		});
 	    
-Let's take a look at it point by point. The most common use case is turning a gesture into an event that is invoked on the DOM element where the gesture starts. We want each square to handle the Xs and Os, and we want the board to handle rotate. To set that up, you simply give a list of gestures to a DOM element:
+Let's take a look at it point by point. The most common use case is turning a gesture into an event that is invoked on the DOM element where the gesture starts. We want each square to handle the Xs, Os, and swipes. We want the board to handle rotates. To set that up, you simply give a list of gestures to a DOM element:
 
     $('.board')
-	    .gesture(['close', 'circleclockwise', 'circlecounterclockwise', 'rotate', ...
+	    .gesture(['left', 'right', 'close', 'circleclockwise', 'circlecounterclockwise', 'rotate', ...
     
 iGesture will bind the appropriate mouse and touch events to the DOM element for you.
 
 (Notice that the "X" gesture is actually called `close`, because in many UIs this looks like the little `x` you see in a close control, so it is used to dismiss things like dialogs. We're using it unconventionally: iGesture is not really designed as a handwriting recognition system. Likewise, Os are actually `circle` gestures. Circles are also handy for rotating things because you might want your web application to work even if the browser does not support the multi-touch rotation gesture.)
 
-We bind a `draw` function to squares using jQuery by passing a hash of events and functions to the `.bind` method:
+We bind the `draw` and `toggle_delete` functions to squares using jQuery by passing a hash of events and functions to the `.bind` method:
 
     $('.square')
       .bind({
@@ -75,7 +84,10 @@ We bind a `draw` function to squares using jQuery by passing a hash of events an
         },
         gesture_close: function (event) {
           	draw('cross', this)
-        }
+        },
+  			'gesture_left gesture_right': function (event) {
+  				  toggle_delete(this);
+  			}
       });
 	    
 The `rotate` gesture is handled by the board, so we bind the handler to the board:
@@ -142,3 +154,4 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [jg]: http://web.siruna.com/nico/jgesture/documentation.html
 [announce]: http://github.com/raganwald/homoiconic/blob/master/2010/04/igesture.md#readme "Announcing iGesture"
 [eegg]: http://en.wikipedia.org/wiki/Easter_egg_(media)
+[quote]: http://www.mediabistro.com/mobilecontenttoday/apple/apple_newton_developer_returns_after_15_years_tablet_in_apples_future_137076.asp
