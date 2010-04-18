@@ -104,11 +104,14 @@ jQuery.fn.gesture = function (events) {
 		var left = 8;
 	
 		var stroke_handler = function (e) {
+			
+			e.preventDefault();
+			e.stopPropagation();
 
 			var gesture = {
 				target: e.target,
 				originalEvent: e,
-				expiresTime: (e.timestamp + settings.expires),
+				expiresTime: (e.timeStamp + settings.expires),
 				moves: "",
 				x: -1,
 				y: -1,
@@ -151,7 +154,7 @@ jQuery.fn.gesture = function (events) {
 
 					if (this.moves.length < 7) {
 
-						for (gesture_name in settings.gestures) {
+						for (var gesture_name in settings.gestures) {
 							if (this.moves.match(settings.gestures[gesture_name]))
 								return gesture_name;
 						}
@@ -186,8 +189,6 @@ jQuery.fn.gesture = function (events) {
 					return "unknown";
 				}
 			};
-			e.preventDefault();
-			e.stopPropagation();
 
 			if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
 			
@@ -200,9 +201,16 @@ jQuery.fn.gesture = function (events) {
 			gesture.x = -1;
 			gesture.y = -1;
 			gesture.continuesmode = settings.continuesmode;
-
-			$(this).bind(settings.continueStroke,
-			function (e) {
+			
+			var stroke_stopper;
+			var stroke_continuer;
+			
+			stroke_continuer = function (e) {
+				if (gesture.moves.length == 0 && e.timeStamp > gesture.expiresTime) {
+					$(this).unbind(e);
+					$(this).unbind(settings.stopStroke, stroke_stopper);
+					return;
+				}
 				var x;
 				var y;
 				if (typeof(e.screenX) != 'undefined') {
@@ -271,25 +279,30 @@ jQuery.fn.gesture = function (events) {
 						stroke_events[gesture.getName()]($(gesture.target)).trigger(gesture_event);
 					}
 				}
-				else if (gesture.moves.length == 0 && e.timestamp > settings.expires)
-					console.log('Expired!');
-			});
-		
-			$(this).bind(settings.stopStroke,
-			function (e) {
+					
+			};
+			
+			stroke_stopper = function (e) {
 				if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
 
 				if (!settings.disablecontextmenu) {
 					$(this).unbind("contextmenu");
 				}
-				$(this).unbind(settings.continueStroke);
-				$(this).unbind(settings.stopStroke);
+				$(this).unbind(settings.continueStroke, stroke_continuer);
+				$(this).unbind(e);
 				if (gesture.moves.length != 0 && stroke_events[gesture.getName()]) {
 					var gesture_event = jQuery.Event("gesture_" + gesture.getName());
 					gesture_event.gesture_data = gesture;
 					stroke_events[gesture.getName()]($(gesture.target)).trigger(gesture_event);
 				}
-			});
+			
+				return false;
+			};
+
+			$(this).bind(settings.continueStroke, stroke_continuer);
+			$(this).bind(settings.stopStroke, stroke_stopper);
+			
+			return false;
 			
 		};
 	
@@ -320,29 +333,29 @@ jQuery.fn.gesture = function (events) {
 
 			$(this).bind(settings.continueGesture,
 			function (e) {
-			e.preventDefault();
-			e.stopPropagation();
-			var scale_diff = e.originalEvent.scale - 1.0;
-			gesture.scale += scale_diff;
-			var rotation_diff = e.originalEvent.rotation - gesture.rotation
-			gesture.rotation = e.originalEvent.rotation
-			if (settings.continuesmode) {
-				if (Math.abs(gesture.scale - 1.0) >= settings.minScale && gesture_events['scale']) {
-					var gesture_event = jQuery.Event('gesture_scale');
-					gesture_event.gesture_data = jQuery.extend(gesture, { name: 'scale' });
-					gesture_event.scale = gesture.scale;
-					gesture_events['scale']($(gesture.target)).trigger(gesture_event);
-					gesture.scale = 1.0;
+				e.preventDefault();
+				e.stopPropagation();
+				var scale_diff = e.originalEvent.scale - 1.0;
+				gesture.scale += scale_diff;
+				var rotation_diff = e.originalEvent.rotation - gesture.rotation
+				gesture.rotation = e.originalEvent.rotation
+				if (settings.continuesmode) {
+					if (Math.abs(gesture.scale - 1.0) >= settings.minScale && gesture_events['scale']) {
+						var gesture_event = jQuery.Event('gesture_scale');
+						gesture_event.gesture_data = jQuery.extend(gesture, { name: 'scale' });
+						gesture_event.scale = gesture.scale;
+						gesture_events['scale']($(gesture.target)).trigger(gesture_event);
+						gesture.scale = 1.0;
+					}
+					if (Math.abs(rotation_diff % 360) >= settings.minRotation && gesture_events['rotate']) {
+						var gesture_event = jQuery.Event('gesture_rotate');
+						gesture_event.gesture_data = jQuery.extend(gesture, { name: 'rotate' });
+						gesture_event.rotation = rotation_diff;
+						gesture_events['rotate']($(gesture.target)).trigger(gesture_event);
+						gesture.rotation = 0;
+					}
 				}
-				if (Math.abs(rotation_diff % 360) >= settings.minRotation && gesture_events['rotate']) {
-					var gesture_event = jQuery.Event('gesture_rotate');
-					gesture_event.gesture_data = jQuery.extend(gesture, { name: 'rotate' });
-					gesture_event.rotation = rotation_diff;
-					gesture_events['rotate']($(gesture.target)).trigger(gesture_event);
-					gesture.rotation = 0;
-				}
-			}
-			e.preventDefault();
+				e.preventDefault();
 			});
 
 			$(this).bind(settings.stopGesture, function (e) {
@@ -361,7 +374,7 @@ jQuery.fn.gesture = function (events) {
 				e.preventDefault();
 				e.stopPropagation();
 				$(this).unbind(settings.continueGesture);
-				$(this).unbind(settings.stopGesture);
+				$(this).unbind(e);
 			});
 	
 		};
