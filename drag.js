@@ -6,8 +6,8 @@ $(document).ready(function() {
 	$('.viewport img')
 		.attr('src', 'star_wars/' + image_number + '.jpeg');
 	
-	var gesture_mode;
-	var dragscroll_mode;
+	var navigation_mode;
+	var panning_mode;
 	
 	var bring_image_from = function (direction) {
 		if (direction == 'left')
@@ -21,11 +21,11 @@ $(document).ready(function() {
 				.hide()
 				.prependTo($('.dragger'))
 				.show("slide", { direction: direction }, 1000);
-		gesture_mode();
+		navigation_mode();
 		return false;
 	};
 	
-	gesture_mode = function () {
+	navigation_mode = function () {
 		$('.viewport img')
 			.gesture(['left', 'right', 'hold'])
 			.bind({
@@ -36,7 +36,7 @@ $(document).ready(function() {
 					return bring_image_from('right');
 				},
 				'gesture_hold.drag': function (event) {
-					dragscroll_mode();
+					panning_mode();
 					$(this)
 						.effect("shake", { times:3 }, 100, function () {
 							$(this)
@@ -50,11 +50,11 @@ $(document).ready(function() {
 			.unbind('.drag');
 	}
 	
-	dragscroll_mode = function () {
+	panning_mode = function () {
 		$('.viewport')
 			.dragscrollable({dragSelector: '.dragger:first'})
 			.bind('mouseup.drag', function () {
-				gesture_mode();
+				navigation_mode();
 				return false;
 			});
 		$('.viewport img')
@@ -62,5 +62,5 @@ $(document).ready(function() {
 			.unbind('.drag');
 	};
 	
-	gesture_mode();
+	navigation_mode();
 });
