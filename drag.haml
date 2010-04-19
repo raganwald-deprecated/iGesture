@@ -1,0 +1,52 @@
+!!!
+%html
+  %head
+    %title Combining Gestures with Dragscrolling
+    %meta{:name => "viewport", :content => "user-scalable=no, width=500;"}
+    %script{:src=>"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>"dragscrollable.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>"dragscrollable.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>"jquery.timers-1.2.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>'http://github.com/raganwald/iGesture/raw/master/igesture.jquery.mobile_safari.js', :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>"drag.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %style
+      :sass
+        *
+          margin: 0
+          padding: 0
+          border: none
+        .viewport
+          position: relative
+          border: 1px solid #777
+          background: white
+          width: 500px
+          height: 500px
+          overflow: hidden
+          .dragger
+            position: relative
+            height: 768
+            width: 1024
+            img
+              height: 768
+              width: 1024
+  %body
+    .viewport
+      .dragger
+        %img
+    %p 
+      The drag demo is powered by&nbsp;
+      %a{:href=>'http://github.com/raganwald/iGesture'}>
+        iGesture
+      ,
+      %a{:href=>'http://jquery.com'}>
+        jQuery
+      ,
+      %a{:href=>'http://plugins.jquery.com/project/timers'}>
+        Timers
+      ,
+      %a{:href=>'http://plugins.jquery.com/project/Dragscrollable'}>
+        Dragscrollable
+      and
+      %a{:href=>'http://haml-lang.com'}>
+        Haml/Sass
