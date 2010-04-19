@@ -149,63 +149,46 @@ The transition to "dragscroll" mode is handled by a special gesture called `hold
 
 In the demo, the hold gesture is used to switch into dragscroll mode, trigger the shake gesture, and then send a mousedown event so that the dragscroll plugin knows to start dragging the image when you move the mouse or your finger. Switching into dragscroll mode removes the gesture support and adds dragscroll support. Likewise, when you stop moving the image, a mouseup handler switches everything back into gesture mode. It removes the dragscroll support and re-binds the gesture support.
 
-Here is *all* of the Javascript specific to this advanced iGesture demo:
+Here is *all* of the iGesture-specific code to make this work:
 
-    $(document).ready(function() {
-    	// pick an image, any image
-    	var image_number = Math.floor(Math.random() * 10);
-	
+    gesture_mode = function () {
     	$('.viewport img')
-    		.attr('src', 'star_wars/' + image_number + '.jpeg');
-	
-    	var gesture_mode;
-    	var dragscroll_mode;
-	
-    	gesture_mode = function () {
-    		$('.viewport img')
-    			.gesture(['left', 'right', 'hold'])
-    			.bind({
-    				'gesture_right.drag': function () {
-    					image_number = ++image_number % 10;
-    					$(this)
-    						.attr('src', 'star_wars/' + image_number + '.jpeg');
-    					return false;
-    				},
-    				'gesture_left.drag': function () {
-    					image_number = (--image_number + 10) % 10;
-    					$(this)
-    						.attr('src', 'star_wars/' + image_number + '.jpeg');
-    					return false;
-    				},
-    				'gesture_hold.drag': function (event) {
-    					dragscroll_mode();
-    					$(this)
-    						.effect("shake", { times:3 }, 100, function () {
-    							$(this)
-    								.parent()
-    									.trigger(event.gesture_data.originalEvent);
-    						})
-    				}
-    			});
-    		$('.viewport')
-    			.removedragscrollable()
-    			.unbind('.drag');
-    	}
-	
-    	dragscroll_mode = function () {
-    		$('.viewport')
-    			.dragscrollable({dragSelector: '.dragger:first'})
-    			.bind('mouseup.drag', function () {
-    				gesture_mode();
-    				return false;
-    			});
-    		$('.viewport img')
-    			.removegesture()
-    			.unbind('.drag');
-    	};
-	
-    	gesture_mode();
-    });
+    		.gesture(['left', 'right', 'hold'])
+    		.bind({
+    			'gesture_right.drag': function () {
+    				return bring_image_from('left');
+    			},
+    			'gesture_left.drag': function () {
+    				return bring_image_from('right');
+    			},
+    			'gesture_hold.drag': function (event) {
+    				dragscroll_mode();
+    				$(this)
+    					.effect("shake", { times:3 }, 100, function () {
+    						$(this)
+    							.parent()
+    								.trigger(event.gesture_data.originalEvent);
+    					})
+    			}
+    		});
+    	$('.viewport')
+    		.removedragscrollable()
+    		.unbind('.drag');
+    }
+
+    dragscroll_mode = function () {
+    	$('.viewport')
+    		.dragscrollable({dragSelector: '.dragger:first'})
+    		.bind('mouseup.drag', function () {
+    			gesture_mode();
+    			return false;
+    		});
+    	$('.viewport img')
+    		.removegesture()
+    		.unbind('.drag');
+    };
+
+    gesture_mode();
 		
 There are faster implementations, but this demonstrates the possibilities inherent in creating modal interfaces that mix both gestures and other forms of mouse or touch handling. Review how iGesture is used in both [Naughts and Crosses][nc] and [Combining Gestures with Dragscrolling][drag]. Then try incorporating iGesture into your project. Good luck!
 
