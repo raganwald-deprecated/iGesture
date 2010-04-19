@@ -9,24 +9,29 @@ $(document).ready(function() {
 	var navigation_mode;
 	var panning_mode;
 	
-	var bring_image_from = function (direction) {
-		if (direction == 'left')
-			image_number = ++image_number % 10;
-		else
+	var bring_image_from = function (show_direction) {
+		var hide_direction;
+		if (show_direction == 'left') {
 			image_number = (--image_number + 10) % 10;
+			hide_direction = 'right';
+		} else {
+			image_number = ++image_number % 10;
+			show_direction = 'right';
+			hide_direction = 'left';
+		}
 		$('.viewport img')
-			.detach()
-			.clone()
-				.attr('src', 'star_wars/' + image_number + '.jpeg')
-				.hide()
-				.prependTo($('.dragger'))
-				.show("slide", { direction: direction }, 1000);
-		navigation_mode();
+			.hide("slide", { direction: hide_direction }, 1000, function () {
+				$('<img/>')
+					.attr('src', 'star_wars/' + image_number + '.jpeg')
+					.hide()
+					.prependTo($('.dragger'))
+					.show("slide", { direction: show_direction }, 1000);
+			});
 		return false;
 	};
 	
 	navigation_mode = function () {
-		$('.viewport img')
+		$('.viewport .dragger')
 			.gesture(['left', 'right', 'hold'])
 			.bind({
 				'gesture_right.drag': function () {
@@ -57,7 +62,7 @@ $(document).ready(function() {
 				navigation_mode();
 				return false;
 			});
-		$('.viewport img')
+		$('.viewport .dragger')
 			.removegesture()
 			.unbind('.drag');
 	};
