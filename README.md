@@ -141,9 +141,9 @@ Now try holding your mouse button or finger down on the image without moving. Af
 
 Now if you swipe left or right the image cycles through the set as before. So there are two different behaviours depending on whether you are in "gesture" mode or "dragscroll" mode. 
 
-> HCI gurus often state that modal interfaces are confusing. There are two well-known exceptions. The first is when the modes replicate a well-understood real-world modal behaviour and there is appropriate feedback for the user, such as selecting the colour of ink for drawing. The second is what is nicknamed a "rubber-band mode," a mode that is temporary and 'snaps back' to the normal behaviour as soon as the user stops whatever is currently happening.
+> Modal interfaces can be confusing. There are two well-known exceptions. The first is when the modes replicate a well-understood real-world modal behaviour and there is appropriate feedback for the user, such as selecting the colour of ink for drawing. The second is exception is a "rubber-band mode," a mode that is temporary and 'snaps back' to the normal behaviour as soon as the user stops whatever is currently happening.
 
-> Keyboard modifier keys and mouse buttons are good examples of rubber-band modes: As soon as you release them, the special behaviour stops. The caps lock key is a good example of a mode that is annoying because it isn't a rubber-band mode. Dragscroll mode in this demo is arubber-band mode: As soon as you stop dragging the image and release the mouse button or lift your finger, you return to the normal behaviour.
+> Keyboard modifier keys and mouse buttons are good examples of rubber-band modes: As soon as you release them, the special behaviour stops. The caps lock key is a good example of a mode that is annoying because it isn't a rubber-band mode. Dragscroll mode in this demo is a rubber-band mode: As soon as you stop dragging the image and release the mouse button or lift your finger, you return to the normal behaviour.
 
 The transition to "dragscroll" mode is handled by a special gesture called `hold`. To use the hold gesture in your code, you must include the jQuery Timers plugin. Assuming you include Timers, hold works just like any other gesture, except it is triggered by holding your finger down without moving it. 
 
@@ -207,7 +207,7 @@ Here is *all* of the Javascript specific to this advanced iGesture demo:
     	gesture_mode();
     });
 		
-There are faster implementations, but this demonstrates the possibilities inherent in creating modal interfaces that mix both gestures and other forms of mouse or touch handling. Review the code and how it's used in both [Naughts and Crosses][nc] and [Combining Gestures with Dragscrolling][drag]. Then try incorporating iGesture into your project. Good luck!
+There are faster implementations, but this demonstrates the possibilities inherent in creating modal interfaces that mix both gestures and other forms of mouse or touch handling. Review how iGesture is used in both [Naughts and Crosses][nc] and [Combining Gestures with Dragscrolling][drag]. Then try incorporating iGesture into your project. Good luck!
 
 Sincerely,
 
