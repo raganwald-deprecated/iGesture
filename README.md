@@ -1,6 +1,6 @@
 iGesture
 ===
-*New Demo: [Combining Gestures with Dragscrolling][drag]. See "more advanced iGesture" below.*
+*New Blog Post: [A Modal Interface Combining Gestures and Direct Manipulation][mode]. See "more advanced iGesture" below.*
 
 iGesture provides an event-driven model for supporting *gestures* (like swiping the screen) in your web application. iGesture is especially useful if you are building an application for mobile devices such as the iPhone or iPad and wish to support the same gestures as a native application on both mobile devices and in standard browsers. Because iGesture is event-based, you can support gestures exactly the same way you support other interactions such as mouse clicks: By binding event handlers to DOM elements.
 
@@ -149,10 +149,10 @@ The transition to "panning" mode is handled by a special gesture called `hold`. 
 
 In the demo, the hold gesture is used to switch into panning mode, trigger the shake gesture, and then send a mousedown event so that the dragscroll plugin knows to start dragging the image when you move the mouse or your finger. Switching into panning mode removes the gesture support and adds dragscroll support. Likewise, when you stop moving the image, a mouseup handler switches everything back into navigation mode. It removes the dragscroll support and re-binds the gesture support.
 
-Here is *all* of the iGesture-specific code to make this work:
+Here is *all* of the iGesture- and Dragscroll-specific code to make this work:
 
 	navigation_mode = function () {
-		$('.viewport img')
+		$('.viewport .dragger')
 			.gesture(['left', 'right', 'hold'])
 			.bind({
 				'gesture_right.drag': function () {
@@ -178,12 +178,12 @@ Here is *all* of the iGesture-specific code to make this work:
 	
 	panning_mode = function () {
 		$('.viewport')
-			.dragscrollable({dragSelector: '.dragger:first'})
+			.dragscrollable()
 			.bind('mouseup.drag', function () {
 				navigation_mode();
 				return false;
 			});
-		$('.viewport img')
+		$('.viewport .dragger')
 			.removegesture()
 			.unbind('.drag');
 	};
@@ -225,3 +225,4 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [quote]: http://www.mediabistro.com/mobilecontenttoday/apple/apple_newton_developer_returns_after_15_years_tablet_in_apples_future_137076.asp
 [drag]: http://raganwald.github.com/iGesture/drag.html
 [hoth]: /raganwald/iGesture/raw/master/about/hoth.png  "Hoth"
+[mode]: http://github.com/raganwald/homoiconic/blob/master/2010/04/modal_interface.md#readme 
