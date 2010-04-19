@@ -24,6 +24,12 @@
 // Warning: May Contain Underscores
 //					http://ozmm.org/posts/javascript_style.html
 //
+jQuery.fn.removegesture = function (optional_namespace) {
+	var namespace = typeof(optional_namespace) == 'undefined' ? '.g' : optional_namespace;
+	this.unbind(namespace);
+	return this;
+};
+
 jQuery.fn.gesture = function (events) {
 	
 	var return_target = function (target) { return target; };
@@ -54,7 +60,8 @@ jQuery.fn.gesture = function (events) {
 		repeat: false,
 		disablecontextmenu: true,
 		hold_time: '2s',
-		gestures: {}
+		gestures: {},
+		namespace: '.g'
 	};
 	var settings = {
 		gestures: {}
@@ -202,7 +209,7 @@ jQuery.fn.gesture = function (events) {
 			
 			// disable browser context menu.
 			if (settings.disablecontextmenu) {
-				$(this).bind("contextmenu", function (e) { return false; });
+				$(this).bind("contextmenu" + settings.namespace, function (e) { return false; });
 			}
 
 			gesture.moves = "";
@@ -243,8 +250,8 @@ jQuery.fn.gesture = function (events) {
 					x = e.originalEvent.targetTouches[0].pageX;
 					y = e.originalEvent.targetTouches[0].pageY;
 					if (e.originalEvent.targetTouches.length > 1) {
-						$(this).unbind(settings.continueStroke);
-						$(this).unbind(settings.stopStroke);
+						$(this).unbind(settings.continueStroke + settings.namespace);
+						$(this).unbind(settings.stopStroke + settings.namespace);
 						return;
 					}
 				}
@@ -293,7 +300,7 @@ jQuery.fn.gesture = function (events) {
 				if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
 
 				if (!settings.disablecontextmenu) {
-					$(this).unbind("contextmenu");
+					$(this).unbind("contextmenu" + settings.namespace);
 				}
 				$(this).unbind(settings.continueStroke, stroke_continuer);
 				$(this).unbind(e);
@@ -306,8 +313,8 @@ jQuery.fn.gesture = function (events) {
 				return false;
 			};
 
-			$(this).bind(settings.continueStroke, stroke_continuer);
-			$(this).bind(settings.stopStroke, stroke_stopper);
+			$(this).bind(settings.continueStroke + settings.namespace, stroke_continuer);
+			$(this).bind(settings.stopStroke + settings.namespace, stroke_stopper);
 			
 			var checking_for_hold_on_this_stroke = care_about_holds_in_general;
 			
@@ -326,7 +333,7 @@ jQuery.fn.gesture = function (events) {
 			
 		};
 	
-		this.bind(settings.startStroke, stroke_handler);
+		this.bind(settings.startStroke + settings.namespace, stroke_handler);
 		
 	};
 			
@@ -340,7 +347,7 @@ jQuery.fn.gesture = function (events) {
 
 			// disable browser context menu.
 			if (settings.disablecontextmenu) {
-				$(this).bind("contextmenu", function (e) { return false; });
+				$(this).bind("contextmenu" + settings.namespace, function (e) { return false; });
 			}
 
 			gesture.moves = "";
@@ -351,7 +358,7 @@ jQuery.fn.gesture = function (events) {
 			gesture.scale = 1.0;
 			gesture.rotation = 0;
 
-			$(this).bind(settings.continueGesture,
+			$(this).bind(settings.continueGesture + settings.namespace,
 			function (e) {
 				e.preventDefault();
 				e.stopPropagation();
@@ -378,7 +385,7 @@ jQuery.fn.gesture = function (events) {
 				e.preventDefault();
 			});
 
-			$(this).bind(settings.stopGesture, function (e) {
+			$(this).bind(settings.stopGesture + settings.namespace, function (e) {
 				if (Math.abs(gesture.scale - 1.0) >= settings.minScale && gesture_events['scale']) {
 					var gesture_event = jQuery.Event('gesture_scale');
 					gesture_event.gesture_data = jQuery.extend(gesture, { name: 'scale' });
@@ -393,13 +400,13 @@ jQuery.fn.gesture = function (events) {
 				}
 				e.preventDefault();
 				e.stopPropagation();
-				$(this).unbind(settings.continueGesture);
+				$(this).unbind(settings.continueGesture + settings.namespace);
 				$(this).unbind(e);
 			});
 	
 		};
 		
-		this.bind(settings.startGesture, gesture_handler);
+		this.bind(settings.startGesture + settings.namespace, gesture_handler);
 		
 	};
 	
