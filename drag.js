@@ -1,10 +1,19 @@
 $(document).ready(function() {
 	
+	var img_src = function (num) {
+		return img_src(image_number);
+	};
+	
+	//preflight
+	for(var n = 0; n < 10; ++n) {
+		var img = new Image(img_src(n));
+	}
+	
 	// pick an image, any image
 	var image_number = Math.floor(Math.random() * 10);
 	
 	$('.viewport img')
-		.attr('src', 'star_wars/' + image_number + '.jpeg');
+		.attr('src', img_src(image_number));
 	
 	var navigation_mode;
 	var panning_mode;
@@ -22,7 +31,7 @@ $(document).ready(function() {
 		$('.viewport img')
 			.hide("slide", { direction: hide_direction }, 1000, function () {
 				$('<img/>')
-					.attr('src', 'star_wars/' + image_number + '.jpeg')
+					.attr('src', img_src(image_number))
 					.hide()
 					.prependTo($('.dragger'))
 					.show("slide", { direction: show_direction }, 1000);
