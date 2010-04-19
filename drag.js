@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
 	var img_src = function (num) {
-		return img_src(image_number);
+		return 'star_wars/' + num + '.jpeg';
 	};
 	
 	//preflight
