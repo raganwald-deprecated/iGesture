@@ -18,6 +18,11 @@
           border: none
         .viewport
           position: relative
+          left: 50%
+          margin:
+            left: -250px
+            top: 20px
+            bottom: 10px
           border: 1px solid #777
           background: white
           width: 500px
@@ -30,12 +35,14 @@
             img
               height: 768
               width: 1024
+        p
+          text-align: center
   %body
     .viewport
       .dragger
         %img
     %p 
-      The drag demo is powered by&nbsp;
+      Powered by&nbsp;
       %a{:href=>'http://github.com/raganwald/iGesture'}>
         iGesture
       ,
