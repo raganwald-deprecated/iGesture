@@ -6,7 +6,8 @@ $(document).ready(function() {
 	
 	//preflight
 	for(var n = 0; n < 10; ++n) {
-		var img = new Image(img_src(n));
+		var img = new Image();
+		img.src = img_src(n);
 	}
 	
 	// pick an image, any image
