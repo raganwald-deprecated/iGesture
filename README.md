@@ -126,8 +126,80 @@ In Naughts and Crosses, we are triggering `gesture_scrub` on all squares that ar
           	$(this).empty();
         }
       });
+      
+**more advanced iGesture**
+
+In addition to adding gesture support to a DOM element, you can also remove gesture support by calling `.removegesture`. This can be handy when you want to create a modal interface: Sometimes an element accepts gestures, sometimes it doesn't. One scenario is replicating the behaviour of the iPhone's home screen.
+
+On an iPhone, if you hold your finger down on an icon, after a delay the icons on the home screen start shaking. This is a hint that you can drag them around to re-arrange the home screen as you see fit. You can do similar things with iGesture in combination with other jQuery plugins like jQuery UI (for the shake effect) and Dragscroll.
+
+Have a look at [Combining Gestures with Dragscrolling][drag]. In this demo, you should see an image cropped to a 500px square div. The image is randomly selected from a set of ten different Star Wars themed wallpapers. You can cycle through the images by swiping left or right. So far, standard iGesture.
+
+Now try holding your mouse button or finger down on the image without moving. After a few seconds, the image shakes signaling you are in dragscroll mode. Move the mouse without releasing the button or lifting your finger and the image pans around within the cropping rectangle. Release the button or lift your finger when you are done.
+
+Now if you swipe left or right the image cycles through the set as before. So there are two different behaviours depending on whether you are in "gesture" mode or "dragscroll" mode.
+
+The transition to "dragscroll" mode is handled by a special gesture called `hold`. To use the hold gesture in your code, you must include the jQuery Timers plugin. Assuming you include Timers, hold works just like any other gesture, except it is triggered by holding your finger down without moving it. 
+
+In the demo, the hold gesture is used to switch into dragscroll mode, trigger the shake gesture, and then send a mousedown event so that the dragscroll plugin knows to start dragging the image when you move the mouse or your finger. Switching into dragscroll mode removes the gesture support and adds dragscroll support. Likewise, when you stop moving the image, a mouseup handler switches everything back into gesture mode. It removes the dragscroll support and re-binds the gesture support.
+
+    $(document).ready(function() {
+    	// pick an image, any image
+    	var image_number = Math.floor(Math.random() * 10);
+	
+    	$('.viewport img')
+    		.attr('src', 'star_wars/' + image_number + '.jpeg');
+	
+    	var gesture_mode;
+    	var dragscroll_mode;
+	
+    	gesture_mode = function () {
+    		$('.viewport img')
+    			.gesture(['left', 'right', 'hold'])
+    			.bind({
+    				'gesture_right.drag': function () {
+    					image_number = ++image_number % 10;
+    					$(this)
+    						.attr('src', 'star_wars/' + image_number + '.jpeg');
+    					return false;
+    				},
+    				'gesture_left.drag': function () {
+    					image_number = (--image_number + 10) % 10;
+    					$(this)
+    						.attr('src', 'star_wars/' + image_number + '.jpeg');
+    					return false;
+    				},
+    				'gesture_hold.drag': function (event) {
+    					dragscroll_mode(); // probably need to fake a mousedown upwards
+    					$(this)
+    						.effect("shake", { times:3 }, 100, function () {
+    							$(this)
+    								.parent()
+    									.trigger(event.gesture_data.originalEvent);
+    						})
+    				}
+    			});
+    		$('.viewport')
+    			.removedragscrollable()
+    			.unbind('.drag');
+    	}
+	
+    	dragscroll_mode = function () {
+    		$('.viewport')
+    			.dragscrollable({dragSelector: '.dragger:first'})
+    			.bind('mouseup.drag', function () {
+    				gesture_mode();
+    				return false;
+    			});
+    		$('.viewport img')
+    			.removegesture()
+    			.unbind('.drag');
+    	};
+	
+    	gesture_mode();
+    });
 		
-This should give you enough to get started. Review the code and how it's used in Naughts and Crosses. Then try incorporating it into your project. Good luck!
+There are faster implementations, but this demonstrates the possibilities inherent in creating modal interfaces that mix both gestures and other forms of mouse or touch handling. Review the code and how it's used in both [Naughts and Crosses][nc] and [Combining Gestures with Dragscrolling][drag]. Then try incorporating iGesture into your project. Good luck!
 
 Sincerely,
 
@@ -158,3 +230,4 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [announce]: http://github.com/raganwald/homoiconic/blob/master/2010/04/igesture.md#readme "Announcing iGesture"
 [eegg]: http://en.wikipedia.org/wiki/Easter_egg_(media)
 [quote]: http://www.mediabistro.com/mobilecontenttoday/apple/apple_newton_developer_returns_after_15_years_tablet_in_apples_future_137076.asp
+[drag]: http://raganwald.github.com/iGesture/drag.html
