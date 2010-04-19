@@ -25,7 +25,7 @@ $(document).ready(function() {
 					return false;
 				},
 				'gesture_hold.drag': function (event) {
-					dragscroll_mode(); // probably need to fake a mousedown upwards
+					dragscroll_mode();
 					$(this)
 						.effect("shake", { times:3 }, 100, function () {
 							$(this)
