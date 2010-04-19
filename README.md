@@ -137,13 +137,19 @@ Have a look at [Combining Gestures with Dragscrolling][drag]. In this demo, you 
 
 ![Hoth][hoth]
 
-Now try holding your mouse button or finger down on the image without moving. After a few seconds, the image shakes signaling you are in dragscroll mode. Move the mouse without releasing the button or lifting your finger and the image pans around within the cropping rectangle. Release the button or lift your finger when you are done.
+Now try holding your mouse button or finger down on the image without moving. After a few seconds, the image shakes signaling you can drag it. Move the mouse without releasing the button or lifting your finger and the image pans around within the cropping rectangle. Release the button or lift your finger when you are done.
 
-Now if you swipe left or right the image cycles through the set as before. So there are two different behaviours depending on whether you are in "gesture" mode or "dragscroll" mode.
+Now if you swipe left or right the image cycles through the set as before. So there are two different behaviours depending on whether you are in "gesture" mode or "dragscroll" mode. 
+
+> HCI gurus often state that modal interfaces are confusing. There are two well-known exceptions. The first is when the modes replicate a well-understood real-world modal behaviour and there is appropriate feedback for the user, such as selecting the colour of ink for drawing. The second is what is nicknamed a "rubber-band mode," a mode that is temporary and 'snaps back' to the normal behaviour as soon as the user stops whatever is currently happening.
+
+> Keyboard modifier keys and mouse buttons are good examples of rubber-band modes: As soon as you release them, the special behaviour stops. The caps lock key is a good example of a mode that is annoying because it isn't a rubber-band mode. Dragscroll mode in this demo is arubber-band mode: As soon as you stop dragging the image and release the mouse button or lift your finger, you return to the normal behaviour.
 
 The transition to "dragscroll" mode is handled by a special gesture called `hold`. To use the hold gesture in your code, you must include the jQuery Timers plugin. Assuming you include Timers, hold works just like any other gesture, except it is triggered by holding your finger down without moving it. 
 
 In the demo, the hold gesture is used to switch into dragscroll mode, trigger the shake gesture, and then send a mousedown event so that the dragscroll plugin knows to start dragging the image when you move the mouse or your finger. Switching into dragscroll mode removes the gesture support and adds dragscroll support. Likewise, when you stop moving the image, a mouseup handler switches everything back into gesture mode. It removes the dragscroll support and re-binds the gesture support.
+
+Here is *all* of the Javascript specific to this advanced iGesture demo:
 
     $(document).ready(function() {
     	// pick an image, any image
