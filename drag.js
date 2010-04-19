@@ -52,7 +52,7 @@ $(document).ready(function() {
 	
 	panning_mode = function () {
 		$('.viewport')
-			.dragscrollable({dragSelector: '.dragger:first'})
+			.dragscrollable()
 			.bind('mouseup.drag', function () {
 				navigation_mode();
 				return false;
