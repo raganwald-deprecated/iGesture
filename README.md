@@ -135,6 +135,8 @@ On an iPhone, if you hold your finger down on an icon, after a delay the icons o
 
 Have a look at [Combining Gestures with Dragscrolling][drag]. In this demo, you should see an image cropped to a 500px square div. The image is randomly selected from a set of ten different Star Wars themed wallpapers. You can cycle through the images by swiping left or right. So far, standard iGesture.
 
+![Hoth][hoth]
+
 Now try holding your mouse button or finger down on the image without moving. After a few seconds, the image shakes signaling you are in dragscroll mode. Move the mouse without releasing the button or lifting your finger and the image pans around within the cropping rectangle. Release the button or lift your finger when you are done.
 
 Now if you swipe left or right the image cycles through the set as before. So there are two different behaviours depending on whether you are in "gesture" mode or "dragscroll" mode.
@@ -231,3 +233,4 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [eegg]: http://en.wikipedia.org/wiki/Easter_egg_(media)
 [quote]: http://www.mediabistro.com/mobilecontenttoday/apple/apple_newton_developer_returns_after_15_years_tablet_in_apples_future_137076.asp
 [drag]: http://raganwald.github.com/iGesture/drag.html
+[hoth]: /raganwald/iGesture/raw/master/about/hoth.png  "Hoth"
