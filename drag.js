@@ -26,7 +26,8 @@ $(document).ready(function() {
 					.hide()
 					.prependTo($('.dragger'))
 					.show("slide", { direction: show_direction }, 1000);
-			});
+			})
+			.remove();
 		return false;
 	};
 	
