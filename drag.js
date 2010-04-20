@@ -13,11 +13,28 @@ $(document).ready(function() {
 	// pick an image, any image
 	var image_number = Math.floor(Math.random() * 10);
 	
-	$('.viewport img')
-		.attr('src', img_src(image_number));
-	
 	var navigation_mode;
 	var panning_mode;
+	var viewport_element = $('.viewport');
+	var dragger_element = $('.viewport .dragger')
+		.bind({
+			'gesture_right.drag': function () {
+				return bring_image_from('left');
+			},
+			'gesture_left.drag': function () {
+				return bring_image_from('right');
+			},
+			'gesture_hold.drag': function (event) {
+				panning_mode();
+				$(this)
+					.effect("shake", { times:3 }, 100, function () {
+						$(this)
+							.trigger(event.gesture_data.originalEvent);
+					})
+			}
+		});
+	var image_element = $('.viewport .dragger img')
+		.attr('src', img_src(image_number));
 	
 	var bring_image_from = function (show_direction) {
 		var hide_direction;
@@ -29,7 +46,7 @@ $(document).ready(function() {
 			show_direction = 'right';
 			hide_direction = 'left';
 		}
-		$('.viewport img')
+		image_element
 			.hide("slide", { direction: hide_direction }, 1000, function () {
 				$('<img/>')
 					.attr('src', img_src(image_number))
@@ -42,40 +59,22 @@ $(document).ready(function() {
 	};
 	
 	navigation_mode = function () {
-		$('.viewport .dragger')
-			.gesture(['left', 'right', 'hold'])
-			.bind({
-				'gesture_right.drag': function () {
-					return bring_image_from('left');
-				},
-				'gesture_left.drag': function () {
-					return bring_image_from('right');
-				},
-				'gesture_hold.drag': function (event) {
-					panning_mode();
-					$(this)
-						.effect("shake", { times:3 }, 100, function () {
-							$(this)
-								.parent()
-									.trigger(event.gesture_data.originalEvent);
-						})
-				}
-			});
-		$('.viewport')
+		dragger_element
+			.gesture(['left', 'right', 'hold']);
+		viewport_element
 			.removedragscrollable()
 			.unbind('.drag');
 	}
 	
 	panning_mode = function () {
-		$('.viewport')
+		viewport_element
 			.dragscrollable()
 			.bind('mouseup.drag', function () {
 				navigation_mode();
 				return false;
 			});
-		$('.viewport .dragger')
-			.removegesture()
-			.unbind('.drag');
+		dragger_element
+			.removegesture();
 	};
 	
 	navigation_mode();
