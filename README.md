@@ -151,41 +151,44 @@ In the demo, the hold gesture is used to switch into panning mode, trigger the s
 
 Here is *all* of the iGesture- and Dragscroll-specific code to make this work:
 
+	var navigation_mode;
+	var panning_mode;
+	var viewport_element = $('.viewport');
+	var dragger_element = $('.viewport .dragger')
+		.bind({
+			'gesture_right.drag': function () {
+				return bring_image_from('left');
+			},
+			'gesture_left.drag': function () {
+				return bring_image_from('right');
+			},
+			'gesture_hold.drag': function (event) {
+				panning_mode();
+				$(this)
+					.effect("shake", { times:3 }, 100, function () {
+						$(this)
+							.trigger(event.gesture_data.originalEvent);
+					})
+			}
+		});
+	
 	navigation_mode = function () {
-		$('.viewport .dragger')
-			.gesture(['left', 'right', 'hold'])
-			.bind({
-				'gesture_right.drag': function () {
-					return bring_image_from('left');
-				},
-				'gesture_left.drag': function () {
-					return bring_image_from('right');
-				},
-				'gesture_hold.drag': function (event) {
-					panning_mode();
-					$(this)
-						.effect("shake", { times:3 }, 100, function () {
-							$(this)
-								.parent()
-									.trigger(event.gesture_data.originalEvent);
-						})
-				}
-			});
-		$('.viewport')
+		dragger_element
+			.gesture(['left', 'right', 'hold']);
+		viewport_element
 			.removedragscrollable()
 			.unbind('.drag');
 	}
 	
 	panning_mode = function () {
-		$('.viewport')
+		viewport_element
 			.dragscrollable()
 			.bind('mouseup.drag', function () {
 				navigation_mode();
 				return false;
 			});
-		$('.viewport .dragger')
-			.removegesture()
-			.unbind('.drag');
+		dragger_element
+			.removegesture();
 	};
 	
 	navigation_mode();
