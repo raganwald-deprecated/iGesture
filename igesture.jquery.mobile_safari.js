@@ -297,6 +297,9 @@ jQuery.fn.gesture = function (events) {
 			};
 			
 			stroke_stopper = function (e) {
+				
+				gesture.target.stopTime('hold_detection');
+					
 				if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
 
 				if (!settings.disablecontextmenu) {
