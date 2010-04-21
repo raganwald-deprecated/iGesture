@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Try a Gesture, Any Gesture</title>
+    <script charset='utf-8' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' type='text/javascript'></script>
+    <script charset='utf-8' src='igesture.jquery.mobile_safari.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        $(document).ready(function () {
+          var describe_gesture = function (event) {
+            alert(event.gesture_data.getName());
+          };
+          $('body').gesture([
+            'any', 'swipe', 'circle', 'scrub', 'hold'
+          ]);
+          $('.any')
+            .bind('gesture_any', describe_gesture);
+          $('.swipe')
+            .bind('gesture_swipe', describe_gesture);
+          $('.circle')
+            .bind('gesture_circle', describe_gesture);
+          $('.scrub')
+            .bind('gesture_scrub', describe_gesture);
+          $('.hold')
+            .bind('gesture_hold', describe_gesture);
+        });
+      //]]>
+    </script>
+  </head>
+  <body>
+    <div class='any'>
+      Gesture on me!
+    </div>
+    <div class='swipe'>
+      Swipe me in any direction!
+    </div>
+    <div class='circle'>
+      Draw a circle on me!
+    </div>
+    <div class='scrub'>
+      Scrub me!
+    </div>
+    <div class='hold'>
+      Hold me!
+    </div>
+  </body>
+</html>

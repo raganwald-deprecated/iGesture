@@ -1,0 +1,36 @@
+!!!
+%html
+  %head
+    %title Try a Gesture, Any Gesture
+    %script{:src=>"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>'igesture.jquery.mobile_safari.js', :type=>"text/javascript", :charset=>"utf-8"}
+    :javascript
+      $(document).ready(function () {
+        var describe_gesture = function (event) {
+          alert(event.gesture_data.getName());
+        };
+        $('body').gesture([
+          'any', 'swipe', 'circle', 'scrub', 'hold'
+        ]);
+        $('.any')
+          .bind('gesture_any', describe_gesture);
+        $('.swipe')
+          .bind('gesture_swipe', describe_gesture);
+        $('.circle')
+          .bind('gesture_circle', describe_gesture);
+        $('.scrub')
+          .bind('gesture_scrub', describe_gesture);
+        $('.hold')
+          .bind('gesture_hold', describe_gesture);
+      });
+  %body
+    .any
+      Gesture on me!
+    .swipe
+      Swipe me in any direction!
+    .circle
+      Draw a circle on me!
+    .scrub
+      Scrub me!
+    .hold
+      Hold me!
