@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Dragscrollable</title>
+    <meta content='user-scalable=no, width=500;' name='viewport' />
+    <script charset='utf-8' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' type='text/javascript'></script>
+    <script charset='utf-8' src='dragscrollable.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        $(document).ready(function() {
+        
+        	var img_src = function (num) {
+        		return 'star_wars/' + num + '.jpeg';
+        	};
+        
+        	// pick an image, any image
+        	var image_number = Math.floor(Math.random() * 10);
+        	
+        	$('.viewport')
+        	  .dragscrollable()
+        	  .find('.dragger img')
+        		  .attr('src', img_src(image_number))
+        		  .end();      		
+        
+        });
+      //]]>
+    </script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        border: none; }
+      
+      .viewport {
+        position: relative;
+        left: 50%;
+        margin-left: -250px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        border: 1px solid #777;
+        background: white;
+        width: 500px;
+        height: 500px;
+        overflow: hidden; }
+        .viewport .dragger {
+          position: relative;
+          height: 768;
+          width: 1024;
+          background-color: black; }
+          .viewport .dragger img {
+            height: 768;
+            width: 1024; }
+      
+      p {
+        text-align: center; }
+    </style>
+  </head>
+  <body>
+    <div class='viewport'>
+      <div class='dragger'>
+        <img />
+      </div>
+    </div>
+    <p>
+      Powered by&nbsp;<a href='http://jquery.com'>
+        jQuery
+      </a>,<a href='http://plugins.jquery.com/project/Dragscrollable'>
+        Dragscrollable
+      </a>and<a href='http://haml-lang.com'>
+        Haml/Sass
+      </a></p>
+  </body>
+</html>

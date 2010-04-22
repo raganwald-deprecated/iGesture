@@ -1,0 +1,66 @@
+!!!
+%html
+  %head
+    %title Dragscrollable
+    %meta{:name => "viewport", :content => "user-scalable=no, width=500;"}
+    %script{:src=>"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>"dragscrollable.js", :type=>"text/javascript", :charset=>"utf-8"}
+    :javascript
+      $(document).ready(function() {
+	
+      	var img_src = function (num) {
+      		return 'star_wars/' + num + '.jpeg';
+      	};
+	
+      	// pick an image, any image
+      	var image_number = Math.floor(Math.random() * 10);
+      	
+      	$('.viewport')
+      	  .dragscrollable()
+      	  .find('.dragger img')
+      		  .attr('src', img_src(image_number))
+      		  .end();      		
+		
+      });
+    %style
+      :sass
+        *
+          margin: 0
+          padding: 0
+          border: none
+        .viewport
+          position: relative
+          left: 50%
+          margin:
+            left: -250px
+            top: 20px
+            bottom: 10px
+          border: 1px solid #777
+          background: white
+          width: 500px
+          height: 500px
+          overflow: hidden
+          .dragger
+            position: relative
+            height: 768
+            width: 1024
+            background-color: black
+            img
+              height: 768
+              width: 1024
+        p
+          text-align: center
+  %body
+    .viewport
+      .dragger
+        %img
+    %p 
+      Powered by&nbsp;
+      %a{:href=>'http://jquery.com'}>
+        jQuery
+      ,
+      %a{:href=>'http://plugins.jquery.com/project/Dragscrollable'}>
+        Dragscrollable
+      and
+      %a{:href=>'http://haml-lang.com'}>
+        Haml/Sass
