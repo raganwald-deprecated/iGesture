@@ -234,4 +234,4 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [drag]: http://raganwald.github.com/iGesture/drag.html
 [hoth]: /raganwald/iGesture/raw/master/about/hoth.png  "Hoth"
 [mode]: http://github.com/raganwald/homoiconic/blob/master/2010/04/modal_interface.md#readme 
-[dsfork]: dragscrollable.js
+[dsfork]: http://github.com/raganwald/iGesture/blob/master/dragscrollable.js
