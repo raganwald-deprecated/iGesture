@@ -32,6 +32,8 @@ jQuery.fn.removegesture = function (optional_namespace) {
 
 jQuery.fn.gesture = function (events) {
 	
+	var handling_element = $(this);
+	
 	var return_target = function (target) { return target; };
 	
 	var selector_maker = function (selector) {
@@ -97,7 +99,7 @@ jQuery.fn.gesture = function (events) {
 	});
 	
 	var care_about_holds_in_general = typeof(stroke_events['hold']) != 'undefined';
-	var timers_loaded = typeof($(this).oneTime) == 'undefined';
+	var timers_loaded = typeof(handling_element.oneTime) == 'undefined';
 	
 	if (care_about_holds_in_general && timers_loaded) {
 		console.error("You must include jQuery Timers to use gesture_hold: http://plugins.jquery.com/project/timers");
@@ -155,14 +157,15 @@ jQuery.fn.gesture = function (events) {
 					}
 				},
 				getName: function () {
+					
+					if (this.moves.length == 0) {
+						return;
+					}
 		
-					if (this.continuesmode && this.moves.length > 0) {
+					if (this.continuesmode || this.moves.length == 1) {
 						return this.getMoveNameAt(this.moves.length - 1);
 					}
 
-					if (this.moves.length == 1) {
-						return this.getMoveNameAt(0);
-					}
 					if (this.moves.length == 2) {
 						return this.getMoveNameAt(0) + "_" + this.getMoveNameAt(1);
 					}
@@ -209,7 +212,7 @@ jQuery.fn.gesture = function (events) {
 			
 			// disable browser context menu.
 			if (settings.disablecontextmenu) {
-				$(this).bind("contextmenu" + settings.namespace, function (e) { return false; });
+				handling_element.bind("contextmenu" + settings.namespace, function (e) { return false; });
 			}
 
 			gesture.moves = "";
@@ -219,6 +222,45 @@ jQuery.fn.gesture = function (events) {
 			
 			var stroke_stopper;
 			var stroke_continuer;
+			
+			var trigger_events = function () {
+				var canonical_name = gesture.getName();
+				
+				if (typeof(canonical_name) == 'undefined') {
+					return;
+				}
+				
+				var all_names = [canonical_name];
+				
+				if (canonical_name != 'unknown') {
+					all_names.push('any');
+					if (gesture.moves.length == 1)
+						all_names.push('swipe');
+					if (gesture.moves.length == 2)
+						all_names.push('elbow');
+					if (canonical_name == 'circlecounterclockwise' || canonical_name == 'circleclockwise')
+						all_names.push('circle');
+					if (canonical_name == 'close') {
+						all_names.push('no');
+						all_names.push('reject');
+						all_names.push('dismiss');
+					}
+					if (canonical_name == 'bottomright_topright') {
+						all_names.push('ok');
+						all_names.push('accept');
+						all_names.push('dismiss');
+					}
+				}
+				
+				jQuery.each(all_names, function (index, gesture_name) {
+					if (stroke_events[gesture_name]) {
+						var gesture_event = jQuery.Event("gesture_" + gesture_name);
+						gesture_event.gesture_data = gesture;
+						stroke_events[gesture_name](gesture.target).trigger(gesture_event);
+					}
+				});
+				
+			};
 			
 			stroke_continuer = function (e) {
 				if (checking_for_hold_on_this_stroke && gesture.moves.length > 0) {
@@ -250,8 +292,8 @@ jQuery.fn.gesture = function (events) {
 					x = e.originalEvent.targetTouches[0].pageX;
 					y = e.originalEvent.targetTouches[0].pageY;
 					if (e.originalEvent.targetTouches.length > 1) {
-						$(this).unbind(settings.continueStroke + settings.namespace);
-						$(this).unbind(settings.stopStroke + settings.namespace);
+						handling_element.unbind(settings.continueStroke + settings.namespace);
+						handling_element.unbind(settings.stopStroke + settings.namespace);
 						return;
 					}
 				}
@@ -287,49 +329,44 @@ jQuery.fn.gesture = function (events) {
 							gesture.lastmove = "" + dir;
 						}
 					}
-					if (settings.continuesmode && stroke_events[gesture.getName()]) {
-						var gesture_event = jQuery.Event("gesture_" + name);
-						gesture_event.gesture_data = gesture;
-						stroke_events[gesture.getName()](gesture.target).trigger(gesture_event);
-					}
+					if (settings.continuesmode)
+					 trigger_events(); // I believe this is broken and that we only care about the last stroke.
 				}
 					
 			};
 			
 			stroke_stopper = function (e) {
 				
-				if (checking_for_hold_on_this_stroke)
+				if (checking_for_hold_on_this_stroke) {
 					gesture.target.stopTime('hold_detection');
+				}
 					
-				if (e.button != null && settings.button.indexOf("" + e.button) == -1) return;
+				if (e.button != null && settings.button.indexOf("" + e.button) == -1) {
+					return;
+				}
 
 				if (!settings.disablecontextmenu) {
-					$(this).unbind("contextmenu" + settings.namespace);
+					handling_element.unbind("contextmenu" + settings.namespace);
 				}
-				$(this).unbind(settings.continueStroke, stroke_continuer);
-				$(this).unbind(e);
-				if (gesture.moves.length != 0 && stroke_events[gesture.getName()]) {
-					var gesture_event = jQuery.Event("gesture_" + gesture.getName());
-					gesture_event.gesture_data = gesture;
-					stroke_events[gesture.getName()](gesture.target).trigger(gesture_event);
-				}
+				handling_element.unbind(settings.continueStroke + settings.namespace, stroke_continuer);
+				handling_element.unbind(e);
+				
+				trigger_events();
 			
 				return false;
 			};
 
-			$(this).bind(settings.continueStroke + settings.namespace, stroke_continuer);
-			$(this).bind(settings.stopStroke + settings.namespace, stroke_stopper);
+			handling_element.bind(settings.continueStroke + settings.namespace, stroke_continuer);
+			handling_element.bind(settings.stopStroke + settings.namespace, stroke_stopper);
 			
 			var checking_for_hold_on_this_stroke = care_about_holds_in_general;
 			
 			if (checking_for_hold_on_this_stroke) {
 				gesture.target.oneTime(settings.hold_time, 'hold_detection', function () {
-					$(this).unbind(settings.continueStroke, stroke_continuer);
-					$(this).unbind(settings.stopStroke, stroke_stopper);
+					handling_element.unbind(settings.continueStroke + settings.namespace, stroke_continuer);
+					handling_element.unbind(settings.stopStroke + settings.namespace, stroke_stopper);
 					gesture.getName = function () { return 'hold'; };
-					var gesture_event = jQuery.Event("gesture_" + gesture.getName());
-					gesture_event.gesture_data = gesture;
-					stroke_events[gesture.getName()](gesture.target).trigger(gesture_event);
+					trigger_events();
 				});
 			}
 			
@@ -351,7 +388,7 @@ jQuery.fn.gesture = function (events) {
 
 			// disable browser context menu.
 			if (settings.disablecontextmenu) {
-				$(this).bind("contextmenu" + settings.namespace, function (e) { return false; });
+				handling_element.bind("contextmenu" + settings.namespace, function (e) { return false; });
 			}
 
 			gesture.moves = "";
@@ -362,7 +399,7 @@ jQuery.fn.gesture = function (events) {
 			gesture.scale = 1.0;
 			gesture.rotation = 0;
 
-			$(this).bind(settings.continueGesture + settings.namespace,
+			handling_element.bind(settings.continueGesture + settings.namespace,
 			function (e) {
 				e.preventDefault();
 				e.stopPropagation();
@@ -389,7 +426,7 @@ jQuery.fn.gesture = function (events) {
 				e.preventDefault();
 			});
 
-			$(this).bind(settings.stopGesture + settings.namespace, function (e) {
+			handling_element.bind(settings.stopGesture + settings.namespace, function (e) {
 				if (Math.abs(gesture.scale - 1.0) >= settings.minScale && gesture_events['scale']) {
 					var gesture_event = jQuery.Event('gesture_scale');
 					gesture_event.gesture_data = jQuery.extend(gesture, { name: 'scale' });
@@ -404,8 +441,8 @@ jQuery.fn.gesture = function (events) {
 				}
 				e.preventDefault();
 				e.stopPropagation();
-				$(this).unbind(settings.continueGesture + settings.namespace);
-				$(this).unbind(e);
+				handling_element.unbind(settings.continueGesture + settings.namespace);
+				handling_element.unbind(e);
 			});
 	
 		};

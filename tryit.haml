@@ -3,34 +3,52 @@
   %head
     %title Try a Gesture, Any Gesture
     %script{:src=>"http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", :type=>"text/javascript", :charset=>"utf-8"}
+    %script{:src=>"jquery.timers-1.2.js", :type=>"text/javascript", :charset=>"utf-8"}
     %script{:src=>'igesture.jquery.mobile_safari.js', :type=>"text/javascript", :charset=>"utf-8"}
+    %style
+      :sass
+        .handler
+          height: 500px
+          width: 500px
+          background-color: gray
+        *
+          cursor: pointer
     :javascript
       $(document).ready(function () {
+      
         var describe_gesture = function (event) {
           alert(event.gesture_data.getName());
         };
-        $('body').gesture([
-          'any', 'swipe', 'circle', 'scrub', 'hold'
+        
+        $('.handler').gesture([
+          'any', 'swipe', 'elbow', 'circle', 'dismiss', 'hold'
         ]);
+        
         $('.any')
           .bind('gesture_any', describe_gesture);
         $('.swipe')
           .bind('gesture_swipe', describe_gesture);
+        $('.elbow')
+          .bind('gesture_elbow', describe_gesture);
         $('.circle')
           .bind('gesture_circle', describe_gesture);
-        $('.scrub')
-          .bind('gesture_scrub', describe_gesture);
+        $('.dismiss')
+          .bind('gesture_dismiss', describe_gesture);
         $('.hold')
           .bind('gesture_hold', describe_gesture);
+          
       });
   %body
-    .any
-      Gesture on me!
-    .swipe
-      Swipe me in any direction!
-    .circle
-      Draw a circle on me!
-    .scrub
-      Scrub me!
-    .hold
-      Hold me!
+    .handler
+      .any
+        Gesture on me!
+      .swipe
+        Swipe me!
+      .elbow
+        Stroke me in two directions!
+      .circle
+        Draw a circle on me!
+      .dismiss
+        Dismiss me with a "close" or an "ok"!
+      .hold
+        Hold me!
