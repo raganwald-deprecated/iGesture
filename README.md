@@ -1,6 +1,5 @@
 iGesture
 ===
-*New Blog Post: [A Modal Interface Combining Gestures and Direct Manipulation][mode]. See "more advanced iGesture" below.*
 
 iGesture provides an event-driven model for supporting *gestures* (like swiping the screen) in your web application. iGesture is especially useful if you are building an application for mobile devices such as the iPhone or iPad and wish to support the same gestures as a native application on both mobile devices and in standard browsers. Because iGesture is event-based, you can support gestures exactly the same way you support other interactions such as mouse clicks: By binding event handlers to DOM elements.
 
@@ -199,9 +198,15 @@ Sincerely,
 
 [Reg Braithwaite][reg]
 
-p.s. The [Official Announcement][announce] has some background on how I came to adapt jGesture into iGesture.
 
-p.p.s. [Naughts and Crosses][nc] has an [Easter Egg][eegg]. It shouldn't be too difficult to find it and discover how to create your own custom gestures.
+---
+
+p.s.
+
+* I have [forked][dsfork] the Dragscrollable JQuery plugin to work in Mobile Safari.
+* [A Modal Interface Combining Gestures and Direct Manipulation][mode] is my latest blog post. The demo doesn't work on Mobile Safari just yet, but I'm wporking on it.
+* The [Official Announcement][announce] has some background on how I came to adapt jGesture into iGesture.
+* [Naughts and Crosses][nc] has an [Easter Egg][eegg]. It shouldn't be too difficult to find it and discover how to create your own custom gestures.
 
 ---
 
@@ -229,3 +234,4 @@ Follow [me](http://reginald.braythwayt.com) on [Twitter](http://twitter.com/raga
 [drag]: http://raganwald.github.com/iGesture/drag.html
 [hoth]: /raganwald/iGesture/raw/master/about/hoth.png  "Hoth"
 [mode]: http://github.com/raganwald/homoiconic/blob/master/2010/04/modal_interface.md#readme 
+[dsfork]: dragscrollable.js
