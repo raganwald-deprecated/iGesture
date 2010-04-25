@@ -52,8 +52,6 @@
  *		
  */
 
-var dragscrollable_namespace = '.ds';
-
 var append_namespace = function (string_of_events, ns) {
 	return string_of_events
 		.split(' ')
@@ -79,8 +77,8 @@ var left_top = function(event) {
 	}
 	else if (typeof(event.originalEvent) == 'undefined') {
 		var str = '';
-		for (i in e) {
-			str += ', ' + i + ': ' + e[i];
+		for (i in event) {
+			str += ', ' + i + ': ' + event[i];
 		}
 		console.error("don't understand x and y for " + event.type + ' event: ' + str);
 	}
@@ -101,6 +99,8 @@ var left_top = function(event) {
 };
 
 $.fn.dragscrollable = function( options ) {
+	
+	var handling_element = $(this);
    
 	var settings = $.extend(
 		{   
@@ -109,12 +109,13 @@ $.fn.dragscrollable = function( options ) {
             preventDefault: true,
 			dragstart: 'mousedown touchstart',
 			dragcontinue: 'mousemove touchmove',
-			dragend: 'mouseup touchend'
+			dragend: 'mouseup touchend',
+			namespace: '.ds'
 		},options || {});
 	
-	settings.dragstart = append_namespace(settings.dragstart, dragscrollable_namespace);
-	settings.dragcontinue = append_namespace(settings.dragcontinue, dragscrollable_namespace);
-	settings.dragend = append_namespace(settings.dragend, dragscrollable_namespace);
+	settings.dragstart = append_namespace(settings.dragstart, settings.namespace);
+	settings.dragcontinue = append_namespace(settings.dragcontinue, settings.namespace);
+	settings.dragend = append_namespace(settings.dragend, settings.namespace);
 
 	var dragscroll= {
 		dragStartHandler : function(event) {
@@ -127,11 +128,11 @@ $.fn.dragscrollable = function( options ) {
 			
 			// Initial coordinates will be the last when dragging
 			event.data.lastCoord = left_top(event); 
+			
+			handling_element
+				.bind(settings.dragcontinue, event.data, dragscroll.dragContinueHandler)
+				.bind(settings.dragend, event.data, dragscroll.dragEndHandler);
 		
-			$.event.add( document, settings.dragend, 
-						 dragscroll.dragEndHandler, event.data );
-			$.event.add( document, settings.dragcontinue, 
-						 dragscroll.dragContinueHandler, event.data );
 			if (event.data.preventDefault) {
                 event.preventDefault();
                 return false;
@@ -161,8 +162,9 @@ $.fn.dragscrollable = function( options ) {
 
 		},
 		dragEndHandler : function(event) { // Stop scrolling
-			$.event.remove( document, settings.dragcontinue, dragscroll.dragContinueHandler);
-			$.event.remove( document, settings.dragend, dragscroll.dragEndHandler);
+			handling_element
+				.unbind(settings.dragcontinue)
+				.unbind(settings.dragend);
 			if (event.data.preventDefault) {
                 event.preventDefault();
                 return false;
@@ -182,9 +184,11 @@ $.fn.dragscrollable = function( options ) {
 	});
 }; //end plugin dragscrollable
 
-$.fn.removedragscrollable = function () {
+$.fn.removedragscrollable = function (namespace) {
+	if (typeof(namespace) == 'undefined')
+		namespace = '.ds';
 	return this.each(function() {
-		var x = $(document).find('*').andSelf().unbind(dragscrollable_namespace);
+		var x = $(document).find('*').andSelf().unbind(namespace);
 	});
 };
 

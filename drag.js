@@ -27,10 +27,8 @@ $(document).ready(function() {
 			'gesture_hold.drag': function (event) {
 				panning_mode();
 				$(this)
-					.effect("shake", { times:3 }, 100, function () {
-						$(this)
-							.trigger(event.gesture_data.originalEvent);
-					})
+					.effect("shake", { times:3 }, 100)
+					.trigger(event.gesture_data.originalEvent);
 			}
 		});
 	var image_element = $('.viewport .dragger img')
