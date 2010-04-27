@@ -204,7 +204,7 @@ Sincerely,
 p.s.
 
 * I have [forked][dsfork] the Dragscrollable JQuery plugin to work in Mobile Safari.
-* [A Modal Interface Combining Gestures and Direct Manipulation][mode] is my latest blog post. The demo doesn't work on Mobile Safari just yet, but I'm wporking on it.
+* [A Modal Interface Combining Gestures and Direct Manipulation][mode] is a blog post about iGesture.
 * The [Official Announcement][announce] has some background on how I came to adapt jGesture into iGesture.
 * [Naughts and Crosses][nc] has an [Easter Egg][eegg]. It shouldn't be too difficult to find it and discover how to create your own custom gestures.
 
