@@ -133,7 +133,7 @@ jQuery.fn.gesture = function (events) {
 				x: -1,
 				y: -1,
 				lastmove: "",
-				continuesmode: false,
+				continuesmode: settings.continuesmode,
 				getMoveNameAt: function (i) {
 					switch (Number(this.moves.charAt(i))) {
 					case 1:
@@ -382,9 +382,11 @@ jQuery.fn.gesture = function (events) {
 		
 		var gesture_handler = function (e) {
 			
-			var gesture = {};
-		
-			gesture.target = e.target;
+			var gesture = {
+				target: $(e.target),
+				originalEvent: e,
+				continuesmode: settings.continuesmode
+			};
 
 			// disable browser context menu.
 			if (settings.disablecontextmenu) {
@@ -437,6 +439,7 @@ jQuery.fn.gesture = function (events) {
 					var gesture_event = jQuery.Event('gesture_rotate');
 					gesture_event.gesture_data = jQuery.extend(gesture, { name: 'rotate' });
 					gesture_event.rotation = gesture.rotation;
+					console.log(gesture_events['rotate'](gesture.target));
 					gesture_events['rotate'](gesture.target).trigger(gesture_event);
 				}
 				e.preventDefault();
