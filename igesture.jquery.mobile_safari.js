@@ -439,7 +439,6 @@ jQuery.fn.gesture = function (events) {
 					var gesture_event = jQuery.Event('gesture_rotate');
 					gesture_event.gesture_data = jQuery.extend(gesture, { name: 'rotate' });
 					gesture_event.rotation = gesture.rotation;
-					console.log(gesture_events['rotate'](gesture.target));
 					gesture_events['rotate'](gesture.target).trigger(gesture_event);
 				}
 				e.preventDefault();
