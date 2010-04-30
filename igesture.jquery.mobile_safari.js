@@ -289,6 +289,13 @@ jQuery.fn.gesture = function (events) {
 					y = e.originalEvent.screenY;
 				}
 				else if (typeof(e.originalEvent.targetTouches) != 'undefined') {
+					if (typeof(e.originalEvent.targetTouches[0]) == 'undefined') {
+						var str = '';
+						for (i in e.originalEvent) {
+							str += ', ' + i + ': ' + e.originalEvent[i];
+						}
+						console.error("don't understand x and y for " + e.originalEvent.type + ' event: ' + str);
+					}
 					x = e.originalEvent.targetTouches[0].pageX;
 					y = e.originalEvent.targetTouches[0].pageY;
 					if (e.originalEvent.targetTouches.length > 1) {
